@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="Ingress.WPF.Views.AllActivitiesGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:vms="clr-namespace:Ingress.WPF.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance vms:ActivitiesViewModel}">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <dxg:GridControl ItemsSource="{Binding Activities}" x:Name="grid" Grid.Row="0" MaxHeight="10000">
+
+            <dxg:GridColumn FieldName="Type" IsSmart="True" Visible="True" GroupIndex="0" />
+            <dxg:GridColumn FieldName="ActivityID" IsSmart="True" Visible="False" />
+            <dxg:GridColumn FieldName="InsertedAt" IsSmart="True" Visible="False">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:DateEditSettings DisplayFormat="dd MMM yyyy HH:mm" />
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn FieldName="Username" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+            <dxg:GridColumn FieldName="Subject" IsSmart="True" Visible="True" />
+            <dxg:GridColumn FieldName="DateStart" IsSmart="True" Visible="True" FilterPopupMode="DateSmart">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:DateEditSettings DisplayFormat="dd MMM yyyy HH:mm" />
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn FieldName="DateEnd" IsSmart="True" Visible="True" FilterPopupMode="DateSmart">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:DateEditSettings DisplayFormat="dd MMM yyyy HH:mm" />
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn FieldName="BrokerId" IsSmart="True" Visible="False" FilterPopupMode="CheckedList" />
+            <dxg:GridColumn FieldName="BrokerName" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+            <dxg:GridColumn FieldName="Rating" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+            <dxg:GridColumn FieldName="Comments" IsSmart="True" Visible="True" />
+            <dxg:GridColumn FieldName="PushOrPull" Header="Push/Pull"  IsSmart="True"/>
+            
+            <dxg:GridControl.View>
+                <dxg:TableView AutoWidth="True" AllowEditing="False" />
+            </dxg:GridControl.View>
+
+        </dxg:GridControl>
+        
+        <ContentPresenter Grid.Row="1" Content="{Binding ElementName=grid, Path=SelectedItem}" />
+
+    </Grid>
+</UserControl>
+

@@ -1,5 +1,5 @@
-﻿using JetBrains.Annotations;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Data.Entity;
+using JetBrains.Annotations;
 
 namespace Ingress.Data.Models
 {
@@ -8,12 +8,10 @@ namespace Ingress.Data.Models
     {
         public DbSet<Activity> Activity { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public IngressContext()
+            : base("Server=LONHSQL01\\PROD01;Database=Ingress;Trusted_Connection=True;")
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(@"Server=LONHSQL01\PROD01;Database=Ingress;Trusted_Connection=True;");
-            }
+            
         }
     }
 }

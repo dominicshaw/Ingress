@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Ingress.Data.Bases;
 using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
 using JetBrains.Annotations;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ingress.Data.Repositories
 {

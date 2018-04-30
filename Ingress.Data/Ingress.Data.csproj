@@ -1,21 +1,94 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{509E0B4C-0867-4D2E-B000-505C275672F6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ingress.Data</RootNamespace>
+    <AssemblyName>Ingress.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Compile Include="Bases\EntityFrameworkRepository.cs" />
+    <Compile Include="Interfaces\IActivityRepository.cs" />
+    <Compile Include="Interfaces\IAnalystMeetingRepository.cs" />
+    <Compile Include="Interfaces\ICompanyMeetingRepository.cs" />
+    <Compile Include="Interfaces\IEntityRepository.cs" />
+    <Compile Include="Migrations\201804271116158_NewDataTypes.cs" />
+    <Compile Include="Migrations\201804271116158_NewDataTypes.Designer.cs">
+      <DependentUpon>201804271116158_NewDataTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804301146036_AddedEmailType.cs" />
+    <Compile Include="Migrations\201804301146036_AddedEmailType.Designer.cs">
+      <DependentUpon>201804301146036_AddedEmailType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Activity.cs" />
+    <Compile Include="Models\ActivityType.cs" />
+    <Compile Include="Models\ActivityTypes.cs" />
+    <Compile Include="Models\AnalystMeeting.cs" />
+    <Compile Include="Models\BrokerEmail.cs" />
+    <Compile Include="Models\CompanyMeeting.cs" />
+    <Compile Include="Models\IngressContext.cs" />
+    <Compile Include="Models\ModelAccess.cs" />
+    <Compile Include="Models\PhoneCall.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ActivityRepository.cs" />
+    <Compile Include="Repositories\AnalystMeetingRepository.cs" />
+    <Compile Include="Repositories\CompanyMeetingRepository.cs" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201804271116158_NewDataTypes.resx">
+      <DependentUpon>201804271116158_NewDataTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804301146036_AddedEmailType.resx">
+      <DependentUpon>201804301146036_AddedEmailType.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

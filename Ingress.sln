@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ingress", "Ingress\Ingress.csproj", "{EB55B3E4-6A53-4A81-8B82-A54C552DD6A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ingress.Data", "Ingress.Data\Ingress.Data.csproj", "{509E0B4C-0867-4D2E-B000-505C275672F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ingress.Data", "Ingress.Data\Ingress.Data.csproj", "{423D9D36-29A8-4341-B504-7592BDA7F209}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ingress.WPF", "Ingress.WPF\Ingress.WPF.csproj", "{CD0D6331-BCA6-4D5A-9803-A42ACF369C90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ingress.Tests", "Ingress.Tests\Ingress.Tests.csproj", "{2A9B8666-C78D-45DB-AA2C-AE0385725133}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ingress.Tests", "Ingress.Tests\Ingress.Tests.csproj", "{7E6ADD2C-283E-4606-8442-2F70A1636D98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB55B3E4-6A53-4A81-8B82-A54C552DD6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB55B3E4-6A53-4A81-8B82-A54C552DD6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB55B3E4-6A53-4A81-8B82-A54C552DD6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB55B3E4-6A53-4A81-8B82-A54C552DD6A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{423D9D36-29A8-4341-B504-7592BDA7F209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{423D9D36-29A8-4341-B504-7592BDA7F209}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{423D9D36-29A8-4341-B504-7592BDA7F209}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{423D9D36-29A8-4341-B504-7592BDA7F209}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A9B8666-C78D-45DB-AA2C-AE0385725133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A9B8666-C78D-45DB-AA2C-AE0385725133}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A9B8666-C78D-45DB-AA2C-AE0385725133}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A9B8666-C78D-45DB-AA2C-AE0385725133}.Release|Any CPU.Build.0 = Release|Any CPU
+		{509E0B4C-0867-4D2E-B000-505C275672F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{509E0B4C-0867-4D2E-B000-505C275672F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{509E0B4C-0867-4D2E-B000-505C275672F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{509E0B4C-0867-4D2E-B000-505C275672F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD0D6331-BCA6-4D5A-9803-A42ACF369C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD0D6331-BCA6-4D5A-9803-A42ACF369C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD0D6331-BCA6-4D5A-9803-A42ACF369C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD0D6331-BCA6-4D5A-9803-A42ACF369C90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E6ADD2C-283E-4606-8442-2F70A1636D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E6ADD2C-283E-4606-8442-2F70A1636D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E6ADD2C-283E-4606-8442-2F70A1636D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E6ADD2C-283E-4606-8442-2F70A1636D98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

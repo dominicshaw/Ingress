@@ -2,7 +2,7 @@
 
 namespace Ingress.Data.Interfaces
 {
-    public interface ICompanyMeetingRepository : IRepository<CompanyMeeting, string>
+    public interface ICompanyMeetingRepository : IEntityRepository<CompanyMeeting, string>
     {
 
     }

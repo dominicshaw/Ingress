@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Ingress.WPF.Views.AnalystMeetingsGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
+
+    <dxg:GridControl ItemsSource="{Binding}" >
+        <dxg:GridColumn FieldName="ActivityID" IsSmart="True" Visible="False" />
+        <dxg:GridColumn FieldName="GlobalID" IsSmart="True" Visible="False" />
+        <dxg:GridColumn FieldName="ConvoID" IsSmart="True" Visible="False" />
+        <dxg:GridColumn FieldName="InsertedAt" IsSmart="True" Visible="False" />
+        <dxg:GridColumn FieldName="Username" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+        <dxg:GridColumn FieldName="Organiser" IsSmart="True" Visible="False" FilterPopupMode="CheckedList" />
+        <dxg:GridColumn FieldName="Subject" IsSmart="True" Visible="True" />
+        <dxg:GridColumn FieldName="DateStart" IsSmart="True" Visible="True" FilterPopupMode="DateSmart">
+            <dxg:GridColumn.EditSettings>
+                <dxe:DateEditSettings DisplayFormat="dd MMM yyyy HH:mm" />
+            </dxg:GridColumn.EditSettings>
+        </dxg:GridColumn>
+        <dxg:GridColumn FieldName="DateEnd" IsSmart="True" Visible="True" FilterPopupMode="DateSmart">
+            <dxg:GridColumn.EditSettings>
+                <dxe:DateEditSettings DisplayFormat="dd MMM yyyy HH:mm" />
+            </dxg:GridColumn.EditSettings>
+        </dxg:GridColumn>
+        <dxg:GridColumn FieldName="Categories" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+        <dxg:GridColumn FieldName="TimeTaken" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+        <dxg:GridColumn FieldName="BrokerId" IsSmart="True" Visible="False" FilterPopupMode="CheckedList" />
+        <dxg:GridColumn FieldName="BrokerName" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+        <dxg:GridColumn FieldName="Analyst" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+        <dxg:GridColumn FieldName="Rating" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+        <dxg:GridColumn FieldName="Comments" IsSmart="True" Visible="True" />
+        <dxg:GridColumn FieldName="IsConference" Header="Conference?"  IsSmart="True"/>
+        <dxg:GridColumn FieldName="PushOrPull" Header="Push/Pull"  IsSmart="True"/>
+    </dxg:GridControl>
+
+</UserControl>
