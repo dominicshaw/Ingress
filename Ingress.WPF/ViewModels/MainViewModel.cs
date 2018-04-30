@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using DevExpress.Mvvm;
 using Ingress.Data.Interfaces;
-using Ingress.Data.Models;
 using Ingress.WPF.Factories;
 using Ingress.WPF.ViewModels.Data;
 using JetBrains.Annotations;

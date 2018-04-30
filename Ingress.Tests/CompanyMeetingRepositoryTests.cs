@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Ingress.Data.Interfaces;
+using Ingress.Data.Mocks;
 using Ingress.Data.Models;
-using Ingress.Data.Repositories;
 using log4net;
 using Ninject;
 using NUnit.Framework;
@@ -22,7 +22,7 @@ namespace Ingress.Tests
 
             _kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target?.Member.DeclaringType?.FullName ?? "unknown"));
 
-            _kernel.Bind<ICompanyMeetingRepository>().To<CompanyMeetingRepository>();
+            _kernel.Bind<ICompanyMeetingRepository>().To<MockCompanyMeetingRepository>();
             
             _log = _kernel.Get<ILog>();
         }

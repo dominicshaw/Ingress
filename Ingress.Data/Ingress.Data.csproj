@@ -64,6 +64,9 @@
       <DependentUpon>201804301146036_AddedEmailType.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Mocks\MockActivityRepository.cs" />
+    <Compile Include="Mocks\MockAnalystMeetingRepository.cs" />
+    <Compile Include="Mocks\MockCompanyMeetingRepository.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\ActivityTypes.cs" />
