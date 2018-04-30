@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Configuration;
+using System.Data.Entity;
 using JetBrains.Annotations;
 
 namespace Ingress.Data.Models
@@ -9,7 +10,7 @@ namespace Ingress.Data.Models
         public DbSet<Activity> Activity { get; set; }
 
         public IngressContext()
-            : base("Server=LONHSQL01\\PROD01;Database=Ingress;Trusted_Connection=True;")
+            : base(ConfigurationManager.ConnectionStrings["IngressDb"].ConnectionString)
         {
             
         }
