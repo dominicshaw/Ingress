@@ -83,7 +83,7 @@ namespace Ingress.WPF.Views.Controls
             if (d is DateAndTimeRangeControl control &&
                 e.NewValue is DateTime time)
             {
-                control.SetCurrentValue(EndDateProperty, CreateDateTime(control.Date, time));
+                control.SetCurrentValue(StartDateProperty, CreateDateTime(control.Date, time));
             }
         }
 
@@ -102,7 +102,7 @@ namespace Ingress.WPF.Views.Controls
                 e.NewValue is DateTime date)
             {
                 control.SetCurrentValue(StartDateProperty, CreateDateTime(date, control.StartTime));
-                control.SetCurrentValue(StartDateProperty, CreateDateTime(date, control.EndTime));
+                control.SetCurrentValue(EndDateProperty, CreateDateTime(date, control.EndTime));
             }
         }
 
