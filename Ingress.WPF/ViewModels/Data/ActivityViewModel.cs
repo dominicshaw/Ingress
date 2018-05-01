@@ -13,14 +13,15 @@ namespace Ingress.WPF.ViewModels.Data
     {
         private readonly IActivityRepository _repo;
         private readonly Activity _activity;
-        
+
         public ICommand SaveCommand => new AsyncCommand(Save);
 
         public ActivityViewModel(IActivityRepository repo, Activity activity)
         {
             _repo = repo;
             _activity = activity;
-            Type = activity.GetType().ToString();
+
+            Type = activity.GetType().ToString().Substring(activity.GetType().ToString().LastIndexOf(".") + 1);
         }
 
         public int ActivityID => _activity.ActivityID;
@@ -108,10 +109,14 @@ namespace Ingress.WPF.ViewModels.Data
         }
 
         public string Type { get; }
-        
+
         private async Task Save()
         {
-            _repo.Update(_activity);
+            if (_activity.ActivityID == 0)
+                _repo.Create(_activity);
+            else
+                _repo.Update(_activity);
+
             await _repo.SaveChanges();
         }
 

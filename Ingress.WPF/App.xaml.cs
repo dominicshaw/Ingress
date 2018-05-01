@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using Ingress.Data.Interfaces;
+using Ingress.Data.Mocks;
 using Ingress.Data.Repositories;
 using Ingress.WPF.Factories;
 using log4net;
@@ -32,9 +33,7 @@ namespace Ingress.WPF
             _notifyIcon = (TaskbarIcon) FindResource("NotifyIcon");
 
             _kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target?.Member.DeclaringType?.FullName));
-            _kernel.Bind<IActivityRepository>().To<ActivityRepository>();
-            _kernel.Bind<IAnalystMeetingRepository>().To<AnalystMeetingRepository>();
-            _kernel.Bind<ICompanyMeetingRepository>().To<CompanyMeetingRepository>();
+            _kernel.Bind<IActivityRepository>().To<MockActivityRepository>(); // MockActivityRepository
             _kernel.Bind<INewActivityFactory>().To<NewActivityFactory>();
 
             Start();

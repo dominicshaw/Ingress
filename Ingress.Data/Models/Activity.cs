@@ -31,6 +31,9 @@ namespace Ingress.Data.Models
         public Activity()
         {
             InsertedAt = DateTime.Now;
+            Username = Environment.UserName;
+            DateStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+            DateEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 30, 0);
         }
     }
 }

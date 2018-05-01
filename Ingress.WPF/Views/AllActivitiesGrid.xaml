@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <dxg:GridControl ItemsSource="{Binding Activities}" x:Name="grid" Grid.Row="0" MaxHeight="10000">
+        <dxg:GridControl ItemsSource="{Binding Activities}" x:Name="grid" AutoExpandAllGroups="True" Grid.Row="0" MaxHeight="10000">
 
             <dxg:GridColumn FieldName="Type" IsSmart="True" Visible="True" GroupIndex="0" />
             <dxg:GridColumn FieldName="ActivityID" IsSmart="True" Visible="False" />

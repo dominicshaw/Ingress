@@ -15,8 +15,6 @@ namespace Ingress.Data.Models
         public ModelAccess()
         {
             TimeTaken = new TimeSpan(0, 30, 0).ToString();
-            DateStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
-            DateEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 30, 0);
         }
     }
 }

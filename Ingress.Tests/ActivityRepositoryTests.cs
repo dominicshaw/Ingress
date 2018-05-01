@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Ingress.Data.Interfaces;
 using Ingress.Data.Mocks;
 using Ninject;
@@ -24,6 +25,26 @@ namespace Ingress.Tests
             var repo = _kernel.Get<IActivityRepository>();
             var meetings = await repo.GetAll();
             Assert.IsNotEmpty(meetings);
+        }
+
+        [Test]
+        public async Task CanUpdate()
+        {
+            var repo = _kernel.Get<IActivityRepository>();
+
+            var activities = await repo.GetAll();
+
+            var activity = activities.First();
+
+            var cat = activity.Comments;
+
+            activity.Comments = "Test!";
+
+            await repo.SaveChanges();
+
+            activity.Comments = cat;
+            
+            await repo.SaveChanges();
         }
     }
 }
