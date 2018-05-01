@@ -21,7 +21,7 @@ namespace Ingress.WPF.Views.Controls
             nameof(EndDate),
             typeof(DateTime),
             typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata{  BindsTwoWayByDefault = true });
+            new FrameworkPropertyMetadata(OnEndDateChanged){  BindsTwoWayByDefault = true });
 
         public static readonly DependencyProperty EndTimeProperty = DependencyProperty.Register(
             nameof(EndTime),
@@ -75,6 +75,7 @@ namespace Ingress.WPF.Views.Controls
             if (d is DateAndTimeRangeControl control)
             {
                 control.SetCurrentValue(DateProperty, e.NewValue);
+                control.SetCurrentValue(StartTimeProperty, e.NewValue);
             }
         }
 
@@ -84,6 +85,14 @@ namespace Ingress.WPF.Views.Controls
                 e.NewValue is DateTime time)
             {
                 control.SetCurrentValue(StartDateProperty, CreateDateTime(control.Date, time));
+            }
+        }
+
+        private static void OnEndDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is DateAndTimeRangeControl control)
+            {
+                control.SetCurrentValue(EndTimeProperty, e.NewValue);
             }
         }
 
