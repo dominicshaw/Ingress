@@ -1,88 +1,106 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
-using JetBrains.Annotations;
 
 namespace Ingress.WPF.Views.Controls
 {
-    public partial class DateAndTimeRangeControl : INotifyPropertyChanged
+    public partial class DateAndTimeRangeControl
     {
-        public DateTime DateStart
-        {
-            get { return (DateTime)this.GetValue(DateStartProperty); }
-            set { this.SetValue(DateStartProperty, value); }
-        }
-        public DateTime DateEnd
-        {
-            get { return (DateTime)this.GetValue(DateEndProperty); }
-            set { this.SetValue(DateEndProperty, value); }
-        }
-
-        public static readonly DependencyProperty DateStartProperty = DependencyProperty.Register(
-            "DateStart",
+        public static readonly DependencyProperty StartDateProperty = DependencyProperty.Register(
+            nameof(StartDate),
             typeof(DateTime),
             typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata { BindsTwoWayByDefault = true });
-
-        public static readonly DependencyProperty DateEndProperty = DependencyProperty.Register(
-            "DateEnd",
-            typeof(DateTime),
-            typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata { BindsTwoWayByDefault = true });
+            new FrameworkPropertyMetadata  { BindsTwoWayByDefault = true });
         
+        public static readonly DependencyProperty StartTimeProperty = DependencyProperty.Register(
+            nameof(StartTime),
+            typeof(DateTime),
+            typeof(DateAndTimeRangeControl),
+            new FrameworkPropertyMetadata(OnStartTimeChanged) { BindsTwoWayByDefault = true });
+
+        public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register(
+            nameof(EndDate),
+            typeof(DateTime),
+            typeof(DateAndTimeRangeControl),
+            new FrameworkPropertyMetadata{  BindsTwoWayByDefault = true });
+
+        public static readonly DependencyProperty EndTimeProperty = DependencyProperty.Register(
+            nameof(EndTime),
+            typeof(DateTime),
+            typeof(DateAndTimeRangeControl),
+            new FrameworkPropertyMetadata(OnEndTimeChanged) { BindsTwoWayByDefault = true });
+
+        public static readonly DependencyProperty DateProperty = DependencyProperty.Register(
+            nameof(Date),
+            typeof(DateTime),
+            typeof(DateAndTimeRangeControl),
+            new FrameworkPropertyMetadata(OnDateChanged) { BindsTwoWayByDefault = true });
+
         public DateAndTimeRangeControl()
         {
             InitializeComponent();
         }
 
-        public DateTime DatePart
+        public DateTime StartDate
         {
-            get
-            {
-                return DateStart;
-            }
-            set
-            {
-                DateStart = new DateTime(value.Year, value.Month, value.Day, TimePart1.Hour, TimePart1.Minute, 0);
-                DateEnd = new DateTime(value.Year, value.Month, value.Day, TimePart2.Hour, TimePart2.Minute, 0);
+            get => (DateTime)this.GetValue(StartDateProperty);
+            set => this.SetValue(StartDateProperty, value);
+        }
+        
+        public DateTime StartTime
+        {
+            get => (DateTime) this.GetValue(StartTimeProperty);
+            set => this.SetValue(StartTimeProperty, value);
+        }
 
-                OnPropertyChanged();
+        public DateTime EndDate
+        {
+            get => (DateTime)this.GetValue(EndDateProperty);
+            set => this.SetValue(EndDateProperty, value);
+        }
+
+        public DateTime EndTime
+        {
+            get => (DateTime) this.GetValue(EndTimeProperty);
+            set => this.SetValue(EndTimeProperty, value);
+        }
+
+        public DateTime Date
+        {
+            get => (DateTime) this.GetValue(DateProperty);
+            set => this.SetValue(DateProperty, value);
+        }
+
+        private static void OnStartTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is DateAndTimeRangeControl control &&
+                e.NewValue is DateTime time)
+            {
+                var date = control.Date;
+                control.SetCurrentValue(StartDateProperty, new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, 0));
             }
         }
 
-        public DateTime TimePart1
+        private static void OnEndTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get
+            if (d is DateAndTimeRangeControl control &&
+                e.NewValue is DateTime time)
             {
-                return DateStart;
-            }
-            set
-            {
-                DateStart = new DateTime(DatePart.Year, DatePart.Month, DatePart.Day, value.Hour, value.Minute, 0);
-                OnPropertyChanged();
+                var date = control.Date;
+                control.SetCurrentValue(EndDateProperty, new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, 0));
             }
         }
 
-        public DateTime TimePart2
+        private static void OnDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get
+            if (d is DateAndTimeRangeControl control &&
+                e.NewValue is DateTime date)
             {
-                return DateEnd;
-            }
-            set
-            {
-                DateEnd = new DateTime(DatePart.Year, DatePart.Month, DatePart.Day, value.Hour, value.Minute, 0);
-                OnPropertyChanged();
-            }
-        }
+                var startTime = control.StartTime;
+                control.SetCurrentValue(StartDateProperty, new DateTime(date.Year, date.Month, date.Day, startTime.Hour, startTime.Minute, 0));
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                var endTime = control.EndTime;
+                control.SetCurrentValue(StartDateProperty, new DateTime(date.Year, date.Month, date.Day, endTime.Hour, endTime.Minute, 0));
+            }
         }
     }
 }
