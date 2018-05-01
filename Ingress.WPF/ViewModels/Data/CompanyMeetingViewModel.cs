@@ -1,4 +1,5 @@
-﻿using Ingress.Data.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
 
 namespace Ingress.WPF.ViewModels.Data
@@ -16,7 +17,8 @@ namespace Ingress.WPF.ViewModels.Data
         public string ConvoID => _activity.ConvoID;
         public string Organiser => _activity.Organiser;
         public string Categories => _activity.Categories;
-
+        
+        [Required(ErrorMessage = "You must specify whether this company meeting was via a broker or direct.")]
         public bool? IsDirect
         {
             get => _activity.IsDirect;
@@ -27,7 +29,5 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
-
-        public string CalID => _activity.CalID;
     }
 }

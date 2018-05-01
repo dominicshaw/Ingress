@@ -3,56 +3,77 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                  xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
-                 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                  xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:views="clr-namespace:Ingress.WPF.Views"
                  xmlns:vms="clr-namespace:Ingress.WPF.ViewModels"
-                 xmlns:dvms="clr-namespace:Ingress.WPF.ViewModels.Data"
-                 xmlns:dviews="clr-namespace:Ingress.WPF.Views.Data"
-                 mc:Ignorable="d"
-                 Title="MainWindow" Height="350" Width="525" d:DataContext="{d:DesignInstance vms:MainViewModel}">
+                 mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:MainViewModel}"
+                 Title="Ingress: Track Broker Activities" Height="700" Width="700">
 
     <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <Grid>
 
-        <dxr:RibbonControl Grid.Row="0" RibbonStyle="Office2010">
-            <dxr:RibbonControl.ToolbarItems>
-                <dxb:BarButtonItemLink BarItemName="newItem"/>
-            </dxr:RibbonControl.ToolbarItems>
-            <dxr:RibbonDefaultPageCategory>
-                <dxr:RibbonPage Caption="Home">
-                    <dxr:RibbonPageGroup Caption="File">
-                        <dxb:BarButtonItem x:Name="newItem" Content="New" Glyph="{dx:DXImage Image=New_16x16.png}" LargeGlyph="{dx:DXImage Image=New_32x32.png}"/>
-                        <dxb:BarItemSeparator/>
-                        <dxr:BarButtonGroup x:Name="editorGroup">
-                            <dxb:BarEditItem x:Name="editItem" EditSettings="{dxe:ComboBoxSettings}" EditWidth="80"/>
-                        </dxr:BarButtonGroup>
-                        <dxr:BarButtonGroup x:Name="alignmentGroup">
-                            <dxb:BarCheckItem x:Name="leftCheckItem" Content="Align Left" Glyph="{dx:DXImage Image=AlignLeft_16x16.png}" GroupIndex="1" IsChecked="True"/>
-                            <dxb:BarCheckItem x:Name="rightCheckItem" Content="Align Right" Glyph="{dx:DXImage Image=AlignRight_16x16.png}" GroupIndex="1"/>
-                            <dxb:BarCheckItem x:Name="justifyCheckItem" Content="Align Justify" Glyph="{dx:DXImage Image=AlignJustify_16x16.png}" GroupIndex="1"/>
-                        </dxr:BarButtonGroup>
-                        <dxb:BarItemSeparator/>
-                        <dxb:BarButtonItem x:Name="saveAsItem" Content="Save As" LargeGlyph="{dx:DXImage Image=SaveAs_32x32.png}"/>
-                    </dxr:RibbonPageGroup>
-                </dxr:RibbonPage>
-            </dxr:RibbonDefaultPageCategory>
-        </dxr:RibbonControl>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <ContentPresenter Grid.Row="1" Content="{Binding SelectedView}" />
+            <dxr:RibbonControl Grid.Row="0" RibbonStyle="Office2010">
 
-        <dxr:RibbonStatusBarControl Grid.Row="2">
-            <dxr:RibbonStatusBarControl.RightItems>
-                <dxb:BarButtonItem x:Name="printItem" Content="Print" Glyph="{dx:DXImage Image=Print_16x16.png}"/>
-            </dxr:RibbonStatusBarControl.RightItems>
-        </dxr:RibbonStatusBarControl>
+                <dxr:RibbonControl.DataContext>
+                    <vms:NotifyIconViewModel />
+                </dxr:RibbonControl.DataContext>
+
+                <dxr:RibbonControl.ToolbarItems>
+                    <dxb:BarButtonItemLink BarItemName="newItem"/>
+                </dxr:RibbonControl.ToolbarItems>
+
+                <dxr:RibbonDefaultPageCategory>
+
+                    <dxr:RibbonPage Caption="Home">
+
+                        <dxr:RibbonPageGroup Caption="New Activity">
+                            <dxb:BarButtonItem Command="{Binding AddAnalystMeetingCommand}" Content="Analyst Meeting" LargeGlyph="{dx:DXImage Image=BOPerson_32x32.png}" />
+                            <dxb:BarButtonItem Command="{Binding AddCompanyMeetingCommand}" Content="Company Meeting" LargeGlyph="pack://application:,,,/DevExpress.Images.v17.2;component/DevAV/View/Meeting_32x32.png" />
+                            <dxb:BarButtonItem Command="{Binding AddPhoneCallCommand}"      Content="Phone Call"      LargeGlyph="{dx:DXImage Image=Phone_32x32.png}" />
+                            <dxb:BarButtonItem Command="{Binding AddBrokerEmailCommand}"    Content="Email"           LargeGlyph="{dx:DXImage Image=Mail_32x32.png}" />
+                            <dxb:BarButtonItem Command="{Binding AddModelAccessCommand}"    Content="Model Access"    LargeGlyph="{dx:DXImage Image=SpreadsheetGroup_32x32.png}" />
+                        </dxr:RibbonPageGroup>
+
+                        <dxr:RibbonPageGroup Caption="Commands">
+                            <dxb:BarButtonItem Content="Save" LargeGlyph="{dx:DXImage Image=Save_32x32.png}"/>
+                        </dxr:RibbonPageGroup>
+
+                    </dxr:RibbonPage>
+
+                </dxr:RibbonDefaultPageCategory>
+
+            </dxr:RibbonControl>
+
+            <ContentPresenter Grid.Row="1" Content="{Binding SelectedView}" />
+
+            <dxr:RibbonStatusBarControl Grid.Row="2">
+                <dxr:RibbonStatusBarControl.RightItems>
+                    <dxb:BarButtonItem Content="Print" Glyph="{dx:DXImage Image=Print_16x16.png}"/>
+                </dxr:RibbonStatusBarControl.RightItems>
+            </dxr:RibbonStatusBarControl>
+
+        </Grid>
+        
+        <Grid Visibility="{Binding Working, Converter={dx:BooleanToVisibilityConverter}}">
+            <Grid Background="Black" Opacity="0.2" />
+            <dx:WaitIndicator DeferedVisibility="{Binding Working}">
+                <dx:WaitIndicator.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Loading..." FontSize="20"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </dx:WaitIndicator.ContentTemplate>
+            </dx:WaitIndicator>
+        </Grid>
 
     </Grid>
 

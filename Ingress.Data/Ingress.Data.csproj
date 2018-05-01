@@ -52,9 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bases\EntityFrameworkRepository.cs" />
+    <Compile Include="DataSources\Analyst.cs" />
+    <Compile Include="DataSources\Broker.cs" />
+    <Compile Include="DataSources\NullChecker.cs" />
     <Compile Include="Interfaces\IActivityRepository.cs" />
     <Compile Include="Interfaces\IAnalystMeetingRepository.cs" />
     <Compile Include="Interfaces\ICompanyMeetingRepository.cs" />
+    <Compile Include="Interfaces\IDataSourcesRepository.cs" />
     <Compile Include="Interfaces\IEntityRepository.cs" />
     <Compile Include="Migrations\201804271116158_NewDataTypes.cs" />
     <Compile Include="Migrations\201804271116158_NewDataTypes.Designer.cs">
@@ -64,10 +68,15 @@
     <Compile Include="Migrations\201804301146036_AddedEmailType.Designer.cs">
       <DependentUpon>201804301146036_AddedEmailType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805011534151_FieldChange1.cs" />
+    <Compile Include="Migrations\201805011534151_FieldChange1.Designer.cs">
+      <DependentUpon>201805011534151_FieldChange1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mocks\MockActivityRepository.cs" />
     <Compile Include="Mocks\MockAnalystMeetingRepository.cs" />
     <Compile Include="Mocks\MockCompanyMeetingRepository.cs" />
+    <Compile Include="Mocks\MockDataSourcesRepository.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\ActivityTypes.cs" />
@@ -81,6 +90,7 @@
     <Compile Include="Repositories\ActivityRepository.cs" />
     <Compile Include="Repositories\AnalystMeetingRepository.cs" />
     <Compile Include="Repositories\CompanyMeetingRepository.cs" />
+    <Compile Include="Repositories\DataSourcesRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -92,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804301146036_AddedEmailType.resx">
       <DependentUpon>201804301146036_AddedEmailType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805011534151_FieldChange1.resx">
+      <DependentUpon>201805011534151_FieldChange1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

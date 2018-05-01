@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
 
@@ -29,6 +30,7 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
+        [Required(ErrorMessage = "You must enter an analyst for this meeting.")]
         public string Analyst
         {
             get => _activity.Analyst;
@@ -39,6 +41,7 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
+        [Required(ErrorMessage = "You must specify whether or not this activity was at a conference.")]
         public bool? IsConference
         {
             get => _activity.IsConference;
@@ -49,6 +52,5 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
-        public string CalID => _activity.CalID;
     }
 }

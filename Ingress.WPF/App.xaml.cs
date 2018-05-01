@@ -33,7 +33,18 @@ namespace Ingress.WPF
             _notifyIcon = (TaskbarIcon) FindResource("NotifyIcon");
 
             _kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target?.Member.DeclaringType?.FullName));
-            _kernel.Bind<IActivityRepository>().To<MockActivityRepository>(); // MockActivityRepository
+
+            if (false)
+            {
+                _kernel.Bind<IActivityRepository>().To<MockActivityRepository>(); // MockActivityRepository
+                _kernel.Bind<IDataSourcesRepository>().To<MockDataSourcesRepository>(); // MockDataSourcesRepository
+            }
+            else
+            {
+                _kernel.Bind<IActivityRepository>().To<ActivityRepository>(); // MockActivityRepository
+                _kernel.Bind<IDataSourcesRepository>().To<DataSourcesRepository>(); // MockDataSourcesRepository
+            }
+
             _kernel.Bind<INewActivityFactory>().To<NewActivityFactory>();
 
             Start();

@@ -28,10 +28,10 @@
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Time Taken: " />
 
-        <ctrls:TimeSpanEditor Grid.Row="1" Grid.Column="1" EditValue="{Binding TimeTaken}" />
+        <ctrls:TimeSpanEditor Grid.Row="1" Grid.Column="1" EditValue="{Binding TimeTaken, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Analyst: " />
-        <dxe:TextEdit Grid.Row="2" Grid.Column="1" NullText="Analyst Name(s)" ShowNullText="True" ShowNullTextForEmptyValue="True" />
+        <dxe:TextEdit Grid.Row="2" Grid.Column="1" NullText="Analyst Name(s)" ShowNullText="True" ShowNullTextForEmptyValue="True" EditValue="{Binding Analyst, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         
         <Button Content="Save Changes" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveCommand}" />
 

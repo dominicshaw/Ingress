@@ -1,49 +1,44 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
-using JetBrains.Annotations;
 
 namespace Ingress.WPF.Views.Controls
 {
-    public partial class TimeSpanEditor : INotifyPropertyChanged
+    public partial class TimeSpanEditor
     {
-        public TimeSpan EditValue
-        {
-            get { return (TimeSpan)this.GetValue(EditValueProperty); }
-            set { this.SetValue(EditValueProperty, value); } 
-        }
-
         public static readonly DependencyProperty EditValueProperty = DependencyProperty.Register(
-            "EditValue",
+            nameof(EditValue),
             typeof(TimeSpan),
             typeof(TimeSpanEditor),
-            new FrameworkPropertyMetadata(new TimeSpan(0, 30, 0), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            new FrameworkPropertyMetadata(OnEditValueChanged) { BindsTwoWayByDefault = true });
+
+        public static readonly DependencyProperty HoursProperty = DependencyProperty.Register(
+            nameof(Hours),
+            typeof(int),
+            typeof(TimeSpanEditor),
+            new FrameworkPropertyMetadata(OnHoursChanged) { BindsTwoWayByDefault = true });
+
+        public static readonly DependencyProperty MinutesProperty = DependencyProperty.Register(
+            nameof(Minutes),
+            typeof(int),
+            typeof(TimeSpanEditor),
+            new FrameworkPropertyMetadata(OnMinutesChanged) { BindsTwoWayByDefault = true });
+        
+        public TimeSpan EditValue
+        {
+            get { return (TimeSpan)GetValue(EditValueProperty); }
+            set { SetValue(EditValueProperty, value); }
+        }
 
         public int Hours
         {
-            get
-            {
-                return EditValue.Hours;
-            }
-            set
-            {
-                EditValue = new TimeSpan(0, value, Minutes, 0);
-                OnPropertyChanged();
-            }
+            get => (int) GetValue(HoursProperty);
+            set => SetValue(HoursProperty, value);
         }
 
         public int Minutes
         {
-            get
-            {
-                return EditValue.Minutes;
-            }
-            set
-            {
-                EditValue = new TimeSpan(0, Hours, value, 0);
-                OnPropertyChanged();
-            }
+            get => (int) GetValue(MinutesProperty);
+            set => SetValue(MinutesProperty, value);
         }
 
         public TimeSpanEditor()
@@ -51,12 +46,29 @@ namespace Ingress.WPF.Views.Controls
             InitializeComponent();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private static void OnEditValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (d is TimeSpanEditor editor && e.NewValue is TimeSpan ts)
+            {
+                editor.SetCurrentValue(HoursProperty, ts.Hours);
+                editor.SetCurrentValue(MinutesProperty, ts.Minutes);
+            }
+        }
+
+        private static void OnHoursChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is TimeSpanEditor editor && e.NewValue is int i)
+            {
+                editor.SetCurrentValue(EditValueProperty, new TimeSpan(0, i, editor.Minutes, 0));
+            }
+        }
+
+        private static void OnMinutesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is TimeSpanEditor editor && e.NewValue is int i)
+            {
+                editor.SetCurrentValue(EditValueProperty, new TimeSpan(0, editor.Hours, i, 0));
+            }
         }
     }
 }

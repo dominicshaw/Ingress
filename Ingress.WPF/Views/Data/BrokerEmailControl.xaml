@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Ingress.WPF.Views.Data"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:data="clr-namespace:Ingress.WPF.ViewModels.Data"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance data:BrokerEmailViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -19,15 +20,17 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <local:ActivityControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Analyst: " />
-        <dxe:TextEdit Grid.Row="1" Grid.Column="1" NullText="Analyst Name(s)" ShowNullText="True" ShowNullTextForEmptyValue="True" />
+        <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="1" 
+                          NullText="Analyst Name(s)" ShowNullText="True" ShowNullTextForEmptyValue="True" 
+                          EditValue="{Binding Path=Analyst, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" EditValueType="system:String"
+                          ItemsSource="{Binding Path=DataContext.Analysts, RelativeSource={RelativeSource AncestorType=Window}}"
+                          IncrementalFiltering="True" IsTextEditable="True" ShowEditorButtons="False" AutoComplete="True" 
+                          ImmediatePopup="True" FilterCondition="Contains" />
         
-        <Button Content="Save Changes" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveCommand}" />
-
     </Grid>
 </UserControl>

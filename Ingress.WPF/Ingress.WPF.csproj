@@ -178,6 +178,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\Defaults.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TaskTrayIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Templating.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ToggleButtonStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -260,6 +272,8 @@
     <Resource Include="Images\Door.png" />
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\packages\PropertyChangedAnalyzers.2.5.9.0\analyzers\dotnet\cs\PropertyChangedAnalyzers.Analyzers.dll" />
+    <Analyzer Include="..\packages\PropertyChangedAnalyzers.2.5.9.0\analyzers\dotnet\cs\PropertyChangedAnalyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\WpfAnalyzers.2.1.2.1\analyzers\dotnet\cs\WpfAnalyzers.Analyzers.dll" />
     <Analyzer Include="..\packages\WpfAnalyzers.2.1.2.1\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll" />
   </ItemGroup>

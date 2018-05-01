@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
 
@@ -12,19 +13,8 @@ namespace Ingress.WPF.ViewModels.Data
         {
             _activity = activity;
         }
-
-        public TimeSpan? TimeTaken
-        {
-            get => TimeSpan.Parse(_activity.TimeTaken);
-            set
-            {
-                if (value == null)
-                    _activity.TimeTaken = null;
-
-                _activity.TimeTaken = value.ToString();
-                OnPropertyChanged();
-            }
-        }
+        
+        [Required(ErrorMessage = "You must enter an analyst for this model.")]
         public string Analyst
         {
             get => _activity.Analyst;

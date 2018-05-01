@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
 
@@ -12,7 +13,8 @@ namespace Ingress.WPF.ViewModels.Data
         {
             _activity = activity;
         }
-
+        
+        [Required(ErrorMessage = "You must enter an length for this phone call.")]
         public TimeSpan? TimeTaken
         {
             get
@@ -31,6 +33,7 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
+        [Required(ErrorMessage = "You must enter an analyst for this phone call.")]
         public string Analyst
         {
             get => _activity.Analyst;

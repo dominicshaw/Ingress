@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vms="clr-namespace:Ingress.WPF.ViewModels"
+                    xmlns:views="clr-namespace:Ingress.WPF.Views"
+                    xmlns:dvms="clr-namespace:Ingress.WPF.ViewModels.Data"
+                    xmlns:dviews="clr-namespace:Ingress.WPF.Views.Data">
+    
+    <DataTemplate DataType="{x:Type vms:ActivitiesViewModel}">
+        <views:AllActivitiesGrid />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dvms:ActivityViewModel}">
+        <dviews:ActivityControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dvms:AnalystMeetingViewModel}">
+        <dviews:ActivityControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dvms:CompanyMeetingViewModel}">
+        <dviews:ActivityControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dvms:PhoneCallViewModel}">
+        <dviews:PhoneCallControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dvms:BrokerEmailViewModel}">
+        <dviews:BrokerEmailControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dvms:ModelAccessViewModel}">
+        <dviews:ModelAccessControl />
+    </DataTemplate>
+
+</ResourceDictionary>
