@@ -41,7 +41,7 @@
         <TextBlock Grid.Column="0" Grid.Row="5" Text="Push / Pull: " />
 
         <dxe:TextEdit Margin="5,2" Grid.Column="1" Grid.Row="0" EditValue="{Binding Subject}" />
-        <Controls:DateAndTimeRangeControl Grid.Column="1" Grid.Row="1" DateStart="{Binding DateStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DateEnd="{Binding DateEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Controls:DateAndTimeRangeControl Grid.Column="1" Grid.Row="1" StartDate="{Binding DateStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EndDate="{Binding DateEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <dxe:ComboBoxEdit Margin="5,2" Grid.Column="1" Grid.Row="2" EditValue="{Binding BrokerId}" ItemsSource="{Binding Brokers}" ValueMember="{Binding BrokerId}" />
         <dxe:RatingEdit Margin="5,2" Grid.Column="1" Grid.Row="3" Precision="Full" ItemsCount="5" EditValue="{Binding Rating}" />
