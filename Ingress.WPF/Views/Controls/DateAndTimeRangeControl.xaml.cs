@@ -9,8 +9,8 @@ namespace Ingress.WPF.Views.Controls
             nameof(StartDate),
             typeof(DateTime),
             typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata  { BindsTwoWayByDefault = true });
-        
+            new FrameworkPropertyMetadata(OnStartDateChanged)  { BindsTwoWayByDefault = true });
+
         public static readonly DependencyProperty StartTimeProperty = DependencyProperty.Register(
             nameof(StartTime),
             typeof(DateTime),
@@ -70,13 +70,20 @@ namespace Ingress.WPF.Views.Controls
             set => this.SetValue(DateProperty, value);
         }
 
+        private static void OnStartDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is DateAndTimeRangeControl control)
+            {
+                control.SetCurrentValue(DateProperty, e.NewValue);
+            }
+        }
+
         private static void OnStartTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is DateAndTimeRangeControl control &&
                 e.NewValue is DateTime time)
             {
-                var date = control.Date;
-                control.SetCurrentValue(StartDateProperty, new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, 0));
+                control.SetCurrentValue(EndDateProperty, CreateDateTime(control.Date, time));
             }
         }
 
@@ -85,8 +92,7 @@ namespace Ingress.WPF.Views.Controls
             if (d is DateAndTimeRangeControl control &&
                 e.NewValue is DateTime time)
             {
-                var date = control.Date;
-                control.SetCurrentValue(EndDateProperty, new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, 0));
+                control.SetCurrentValue(EndDateProperty, CreateDateTime(control.Date, time));
             }
         }
 
@@ -95,12 +101,11 @@ namespace Ingress.WPF.Views.Controls
             if (d is DateAndTimeRangeControl control &&
                 e.NewValue is DateTime date)
             {
-                var startTime = control.StartTime;
-                control.SetCurrentValue(StartDateProperty, new DateTime(date.Year, date.Month, date.Day, startTime.Hour, startTime.Minute, 0));
-
-                var endTime = control.EndTime;
-                control.SetCurrentValue(StartDateProperty, new DateTime(date.Year, date.Month, date.Day, endTime.Hour, endTime.Minute, 0));
+                control.SetCurrentValue(StartDateProperty, CreateDateTime(date, control.StartTime));
+                control.SetCurrentValue(StartDateProperty, CreateDateTime(date, control.EndTime));
             }
         }
+
+        private static DateTime CreateDateTime(DateTime date, DateTime time) => new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, 0);
     }
 }
