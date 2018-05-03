@@ -17,6 +17,8 @@ namespace Ingress.WPF
         private readonly StandardKernel _kernel = new StandardKernel();
         private TaskbarIcon _notifyIcon;
 
+        private bool _mock = true;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             InitialiseLogs();
@@ -34,7 +36,7 @@ namespace Ingress.WPF
 
             _kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target?.Member.DeclaringType?.FullName));
 
-            if (true)
+            if (_mock)
             {
                 _kernel.Bind<IActivityRepository>().To<MockActivityRepository>(); // MockActivityRepository
                 _kernel.Bind<IDataSourcesRepository>().To<MockDataSourcesRepository>(); // MockDataSourcesRepository

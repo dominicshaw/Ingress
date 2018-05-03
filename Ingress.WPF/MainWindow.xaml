@@ -72,7 +72,7 @@
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand EventName="DataContextChanged" Command="{Binding DataContext.LayoutsCommands, RelativeSource={RelativeSource AncestorType=Window}}">
                         <dxmvvm:EventToCommand.EventArgsConverter>
-                            <converters:DataContextChangedEventConverter />
+                            <converters:DataContextChangedFromEventConverter />
                         </dxmvvm:EventToCommand.EventArgsConverter>
                     </dxmvvm:EventToCommand>
                 </dxmvvm:Interaction.Behaviors>

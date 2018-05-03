@@ -75,14 +75,6 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            
-            <Grid.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="../../Styles/ToggleButtonStyles.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </Grid.Resources>
 
             <ToggleButton Margin="5,2" Grid.Column="0" Content="Push" MinWidth="120" IsChecked="{Binding PushOrPull, Converter={converters:PushPullBooleanConverter Pull=False, Push=True}}" />
             <ToggleButton Margin="5,2" Grid.Column="1" Content="Pull" MinWidth="120" IsChecked="{Binding PushOrPull, Converter={converters:PushPullBooleanConverter Pull=True, Push=False}}" />

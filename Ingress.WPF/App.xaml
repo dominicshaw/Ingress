@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Styles/Templating.xaml" />
                 <ResourceDictionary Source="Styles/TaskTrayIcon.xaml" />
                 <ResourceDictionary Source="Styles/FlashMessageStyles.xaml" />
+                <ResourceDictionary Source="Styles/ToggleButtonStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 

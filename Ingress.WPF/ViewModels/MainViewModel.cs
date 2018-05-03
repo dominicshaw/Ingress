@@ -8,7 +8,6 @@ using System.Windows.Input;
 using DevExpress.Mvvm;
 using Ingress.Data.DataSources;
 using Ingress.Data.Interfaces;
-using Ingress.WPF.Converters;
 using Ingress.WPF.Factories;
 using Ingress.WPF.ViewModels.Data;
 using Ingress.WPF.ViewModels.MessengerCommands;
@@ -92,11 +91,11 @@ namespace Ingress.WPF.ViewModels
             }
         }
 
-        public ICommand LayoutsCommands => new DelegateCommand<DataContextChange>(LayoutChange);
+        public ICommand LayoutsCommands => new DelegateCommand<SelectableViewModel>(LayoutChange);
 
-        private static void LayoutChange(DataContextChange change)
+        private static void LayoutChange(SelectableViewModel from)
         {
-            if (change.Old != null) Messenger.Default.Send(new SaveLayoutCommand(change.Old));
+            if (from != null) Messenger.Default.Send(new SaveLayoutCommand(from));
         }
 
         public MainViewModel(ILog log, IActivityRepository activityRepository, IDataSourcesRepository dataSourcesRepository, ILoadActivityFactory newActivityFactory)
@@ -118,12 +117,17 @@ namespace Ingress.WPF.ViewModels
             try
             {
                 Working = true;
-                
-                Analysts = await _dataSourcesRepository.GetAnalysts();
-                Brokers = await _dataSourcesRepository.GetBrokers();
 
+                if (Analysts == null || Brokers == null)
+                {
+                    Analysts = await _dataSourcesRepository.GetAnalysts();
+                    Brokers = await _dataSourcesRepository.GetBrokers();
+                }
+                
                 var vm = new ActivitiesViewModel(_activityRepository, _newActivityFactory, Brokers);
                 SelectedView = vm;
+                
+                await Task.Delay(1000); // TODO - the date control is fucking up right here; when the view is changed, it sets the values to mindate, which actually changes the VM too
 
                 await vm.Start();
             }

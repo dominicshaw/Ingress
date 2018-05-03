@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Windows;
+using log4net;
 
 namespace Ingress.WPF.Views.Controls
 {
     public partial class DateAndTimeRangeControl
     {
+        private static readonly ILog _log = LogManager.GetLogger(typeof(DateAndTimeRangeControl));
+
         public static readonly DependencyProperty StartDateProperty = DependencyProperty.Register(
             nameof(StartDate),
             typeof(DateTime),
             typeof(DateAndTimeRangeControl),
             new FrameworkPropertyMetadata(OnStartDateChanged)  { BindsTwoWayByDefault = true });
 
-        public static readonly DependencyProperty StartTimeProperty = DependencyProperty.Register(
-            nameof(StartTime),
-            typeof(DateTime),
-            typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata(OnStartTimeChanged) { BindsTwoWayByDefault = true });
-
         public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register(
             nameof(EndDate),
             typeof(DateTime),
             typeof(DateAndTimeRangeControl),
             new FrameworkPropertyMetadata(OnEndDateChanged){  BindsTwoWayByDefault = true });
+
+        public static readonly DependencyProperty StartTimeProperty = DependencyProperty.Register(
+            nameof(StartTime),
+            typeof(DateTime),
+            typeof(DateAndTimeRangeControl),
+            new FrameworkPropertyMetadata(OnStartTimeChanged) { BindsTwoWayByDefault = true });
 
         public static readonly DependencyProperty EndTimeProperty = DependencyProperty.Register(
             nameof(EndTime),
@@ -45,17 +48,17 @@ namespace Ingress.WPF.Views.Controls
             get => (DateTime)GetValue(StartDateProperty);
             set => SetValue(StartDateProperty, value);
         }
-        
-        public DateTime StartTime
-        {
-            get => (DateTime) GetValue(StartTimeProperty);
-            set => SetValue(StartTimeProperty, value);
-        }
 
         public DateTime EndDate
         {
             get => (DateTime)GetValue(EndDateProperty);
             set => SetValue(EndDateProperty, value);
+        }
+        
+        public DateTime StartTime
+        {
+            get => (DateTime) GetValue(StartTimeProperty);
+            set => SetValue(StartTimeProperty, value);
         }
 
         public DateTime EndTime
@@ -74,6 +77,7 @@ namespace Ingress.WPF.Views.Controls
         {
             if (d is DateAndTimeRangeControl control)
             {
+                _log.Info("Start Date set: " + e.NewValue);
                 control.SetCurrentValue(DateProperty, e.NewValue);
                 control.SetCurrentValue(StartTimeProperty, e.NewValue);
             }
@@ -83,6 +87,7 @@ namespace Ingress.WPF.Views.Controls
         {
             if (d is DateAndTimeRangeControl control)
             {
+                _log.Info("End Date set: " + e.NewValue);
                 control.SetCurrentValue(EndTimeProperty, e.NewValue);
             }
         }
@@ -91,6 +96,7 @@ namespace Ingress.WPF.Views.Controls
         {
             if (d is DateAndTimeRangeControl control && e.NewValue is DateTime time)
             {
+                _log.Info("Start Time set: " + e.NewValue);
                 control.SetCurrentValue(StartDateProperty, CreateDateTime(control.Date, time));
             }
         }
@@ -99,6 +105,7 @@ namespace Ingress.WPF.Views.Controls
         {
             if (d is DateAndTimeRangeControl control && e.NewValue is DateTime time)
             {
+                _log.Info("End Time set: " + e.NewValue);
                 control.SetCurrentValue(EndDateProperty, CreateDateTime(control.Date, time));
             }
         }
@@ -107,6 +114,8 @@ namespace Ingress.WPF.Views.Controls
         {
             if (d is DateAndTimeRangeControl control && e.NewValue is DateTime date)
             {
+                _log.Info("Date set: " + e.NewValue);
+
                 control.SetCurrentValue(StartDateProperty, CreateDateTime(date, control.StartTime));
                 control.SetCurrentValue(EndDateProperty, CreateDateTime(date, control.EndTime));
             }

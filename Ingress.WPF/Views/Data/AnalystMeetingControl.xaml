@@ -43,7 +43,7 @@
         <dxe:CheckEdit Grid.Row="3" Grid.Column="1" EditValue="{Binding IsConference, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Skipped?" />
-        <dxe:CheckEdit Grid.Row="4" Grid.Column="1" EditValue="{Binding IsConference, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <dxe:CheckEdit Grid.Row="4" Grid.Column="1" EditValue="{Binding Skipped, Mode=OneWay}" IsReadOnly="True" />
 
     </Grid>
 

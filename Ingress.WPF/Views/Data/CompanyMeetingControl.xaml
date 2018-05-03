@@ -2,11 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Ingress.WPF.Views.Data"
-             xmlns:controls="clr-namespace:Ingress.WPF.Views.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:data="clr-namespace:Ingress.WPF.ViewModels.Data"
+             xmlns:cvts="clr-namespace:Ingress.WPF.Converters"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:ctrl="clr-namespace:Ingress.WPF.Views.Controls"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-             mc:Ignorable="d" 
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance data:CompanyMeetingViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
@@ -14,17 +17,77 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="140" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <local:ActivityControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
         
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="User: " /> 
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Subject: " /> 
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Date / Time: " /> 
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Categories: " /> 
+        
+        <dxe:TextEdit Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" EditValue="{Binding Username, Mode=OneWay}" IsReadOnly="True" />
+        <dxe:TextEdit Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" EditValue="{Binding Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <ctrl:DateAndTimeRangeControl Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"
+                                       StartDate="{Binding DateStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                       EndDate="{Binding DateEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        
+        <dxe:TextEdit Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" EditValue="{Binding Categories, Mode=OneWay}" IsReadOnly="True" />
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Meeting Type: " /> 
+
+        <ToggleButton Margin="5,2" Grid.Column="1" Grid.Row="4" IsChecked="{Binding IsDirect}" MinHeight="60" Content="TT directly approached this company"/>
+        <ToggleButton Margin="5,2" Grid.Column="2" Grid.Row="4" IsChecked="{Binding IsBroker}" MinHeight="60" Content="Facilitated by a broker" />
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Push or Pull: " Visibility="{Binding IsDirect, Converter={cvts:BooleanToVisibilityConverter Invert=True}}" /> 
+
+        <ToggleButton Margin="5,2" Grid.Column="1" Grid.Row="5" Content="Push" MinHeight="60" IsChecked="{Binding PushOrPull, Converter={cvts:PushPullBooleanConverter Pull=False, Push=True }}" Visibility="{Binding IsDirect, Converter={cvts:BooleanToVisibilityConverter Invert=True}}" />
+        <ToggleButton Margin="5,2" Grid.Column="2" Grid.Row="5" Content="Pull" MinHeight="60" IsChecked="{Binding PushOrPull, Converter={cvts:PushPullBooleanConverter Pull=True,  Push=False}}" Visibility="{Binding IsDirect, Converter={cvts:BooleanToVisibilityConverter Invert=True}}" />
+        
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Broker: " Visibility="{Binding IsDirect, Converter={cvts:BooleanToVisibilityConverter Invert=True}}" /> 
+
+        <dxg:LookUpEdit Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6"
+                        EditValue="{Binding Broker, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                        ItemsSource="{Binding Path=DataContext.Brokers, RelativeSource={RelativeSource AncestorType=Window}}"
+                        Visibility="{Binding IsDirect, Converter={cvts:BooleanToVisibilityConverter Invert=True}}"
+                        IsTextEditable="True" AutoPopulateColumns="False" AutoComplete="True" IncrementalFiltering="True" FilterCondition="Contains" ImmediatePopup="True">
+            <dxg:LookUpEdit.PopupContentTemplate>
+                <ControlTemplate>
+                    <dxg:GridControl Name="PART_GridControl" SelectionMode="Row">
+                        <dxg:GridControl.Columns>
+                            <dxg:GridColumn FieldName="Name" Width="30" />
+                        </dxg:GridControl.Columns>
+                        <dxg:GridControl.View>
+                            <dxg:TableView AutoWidth="True" />
+                        </dxg:GridControl.View>
+                    </dxg:GridControl>
+                </ControlTemplate>
+            </dxg:LookUpEdit.PopupContentTemplate>
+        </dxg:LookUpEdit>
+        
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="Rating: " Visibility="{Binding IsDirect, Converter={cvts:BooleanToVisibilityConverter Invert=True}}" /> 
+
+        <dxe:RatingEdit Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7" Margin="5,2"  Precision="Full" ItemsCount="5" MinHeight="50"
+                        Visibility="{Binding IsDirect, Converter={cvts:BooleanToVisibilityConverter Invert=True}}"
+                        EditValue="{Binding Rating, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" EditValueType="system:Int32">
+            <!--
+            <dxe:RatingEdit.ItemStyle>
+                <Style TargetType="dxe:RatingItem">
+                    <Setter Property="Geometry" Value="F1 M 3.13819,15.5069L 4.02332,9.9978L 0.00327778,6.12838L 5.51622,5.2678L 7.95399,0.248802L 10.476,5.22599L 16.0027,5.99349L 12.0485,9.93014L 13.0264,15.4235L 8.06048,12.8793L 3.13819,15.5069 Z" />
+                </Style>
+            </dxe:RatingEdit.ItemStyle>
+            -->
+        </dxe:RatingEdit>
 
     </Grid>
 

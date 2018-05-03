@@ -2,11 +2,11 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
-using Ingress.WPF.ViewModels.Data;
 
 namespace Ingress.WPF.Converters
 {
-    public class SelectedViewIsEditableConverter : MarkupExtension, IValueConverter
+    [ValueConversion(typeof(bool), typeof(bool))]
+    public class InvertedBooleanConverter : MarkupExtension, IValueConverter
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -15,15 +15,18 @@ namespace Ingress.WPF.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
-                return false;
-
-            return value is ActivityViewModel;
+            if (value is bool b)
+                return !b;
+            
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException($"{nameof(SelectedViewIsEditableConverter)} can only be used in OneWay bindings");
+        {          
+            if (value is bool b) 
+                return !b;
+            
+            return null;
         }
     }
 }

@@ -153,11 +153,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\DataContextChangedEventConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DataContextChangedFromEventConverter.cs" />
     <Compile Include="Converters\GridControlEventToGridControlConverter.cs" />
+    <Compile Include="Converters\InvertedBooleanConverter.cs" />
     <Compile Include="Converters\PushPullBooleanConverter.cs" />
-    <Compile Include="Converters\SelectedViewIsEditableConverter.cs" />
-    <Compile Include="Converters\TimeSpanToDateTimeConverter.cs" />
     <Compile Include="Layouts\ControlLayoutManager.cs" />
     <Compile Include="Layouts\FileLayoutStrategy.cs" />
     <Compile Include="Layouts\LayoutManager.cs" />

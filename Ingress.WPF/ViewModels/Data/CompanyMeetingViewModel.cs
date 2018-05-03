@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
+using DevExpress.Mvvm;
 using Ingress.Data.Models;
 
 namespace Ingress.WPF.ViewModels.Data
@@ -23,11 +25,31 @@ namespace Ingress.WPF.ViewModels.Data
             get => _activity.IsDirect;
             set
             {
-                if (value == _activity.IsDirect) return;
+                if (_activity.IsDirect == null && value == false) // super annoying hack because when you click on a togglebutton which is currently null, it moves it to unchecked, which is a really weird behavior if you are clicking a button
+                    value = true;
+                
                 _activity.IsDirect = value;
+
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsBroker));
             }
         }
+
+        public bool? IsBroker
+        {
+            get => !_activity.IsDirect;
+            set
+            {
+                if (_activity.IsDirect == null && value == false) // super annoying hack because when you click on a togglebutton which is currently null, it moves it to unchecked, which is a really weird behavior if you are clicking a button
+                    value = true;
+
+                _activity.IsDirect = !value;
+
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsDirect));
+            }
+        }
+
         public override bool Skipped
         {
             get => _activity.Skipped;
@@ -40,6 +62,7 @@ namespace Ingress.WPF.ViewModels.Data
         }
         
         public override string Type => "Company Meeting";
+        
         public override Activity GetModel() => _activity;
     }
 }
