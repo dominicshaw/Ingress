@@ -34,6 +34,11 @@ namespace Ingress.Data.Mocks
 
         }
 
+        public void CancelChanges(AnalystMeeting entity)
+        {
+            
+        }
+
         public async Task SaveChanges()
         {
             await Task.CompletedTask;

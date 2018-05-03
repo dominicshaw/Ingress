@@ -1,115 +1,107 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="Button.Background" Color="Transparent"/>
-    <SolidColorBrush x:Key="Button.BorderBrush" Color="Transparent"/>
-    <SolidColorBrush x:Key="Button.Foreground" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="Button.DefaultState.Border1" Color="Black" />
+    <SolidColorBrush x:Key="Button.DefaultState.Background" Color="#EEEEEE" />
+    <SolidColorBrush x:Key="Button.HoverState.Border1" Color="#FF515151" />
+    <SolidColorBrush x:Key="Button.HoverState.Background" Color="#FFAE4F" />
+    <SolidColorBrush x:Key="Button.PressedState.Border1" Color="#FF515151" />
+    <SolidColorBrush x:Key="Button.PressedState.Background" Color="#FFC37D" />
+    <SolidColorBrush x:Key="Button.CheckedState.Border1" Color="#FF515151" />
+    <SolidColorBrush x:Key="Button.CheckedState.Background" Color="#FFF78A09" />
 
-    <SolidColorBrush x:Key="Button.DarkForeground" Color="#FF3C3C3C"/>
-    <SolidColorBrush x:Key="Button.DisabledState.Foreground" Color="#FF646464"/>
+    <Color x:Key="DefaultForegroundColor">#393939</Color>
+
+    <SolidColorBrush x:Key="Text.Foreground" Color="{StaticResource DefaultForegroundColor}" />
 
     <Style x:Key="FocusTemplate" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="#FFFFCC00"/>
-        <Setter Property="CornerRadius" Value="1"/>
-        <Setter Property="Margin" Value="-1"/>
-        <Setter Property="Opacity" Value="0.5"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Button.PressedState.Background}" />
+        <Setter Property="BorderThickness" Value="1" />
     </Style>
-    <SolidColorBrush x:Key="Button.DefaultState.Border1" Color="#FF6A6A6A"/>
-    <LinearGradientBrush x:Key="Button.DefaultState.Border2"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FFB3B3B3" Offset="0"/>
-        <GradientStop Color="#FF9F9F9F" Offset="1"/>
-    </LinearGradientBrush>
 
-    <SolidColorBrush x:Key="Button.DefaultState.AttachmentBorder1" Color="#FF6A6A6A"/>
-    <LinearGradientBrush x:Key="Button.DefaultState.AttachmentBorder2"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FFEBA2" Offset="0"/>
-        <GradientStop Color="#FCD856" Offset="1"/>
-    </LinearGradientBrush>
+    <Style x:Key="BaseButtonStyle" TargetType="{x:Type ButtonBase}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="{StaticResource Button.DefaultState.Border1}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Button.DefaultState.Border1}" />
+        <Setter Property="Foreground" Value="{StaticResource Text.Foreground}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="10,1,10,1" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Grid x:Name="Root" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <Grid x:Name="DefaultState">
+                            <Border Background="{StaticResource Button.DefaultState.Border1}" Padding="1">
+                                <Border Background="{StaticResource Button.DefaultState.Background}" />
+                            </Border>
+                        </Grid>
+                        <Grid x:Name="HoverState" Opacity="0">
+                            <Border Background="{StaticResource Button.HoverState.Border1}" Padding="1">
+                                <Border Background="{StaticResource Button.HoverState.Background}" />
+                            </Border>
+                        </Grid>
+                        <Grid x:Name="FocusState" Opacity="0">
+                            <Border Style="{StaticResource FocusTemplate}" />
+                        </Grid>
+                        <Grid x:Name="PressedState" Opacity="0">
+                            <Border Background="{StaticResource Button.PressedState.Border1}" Padding="1">
+                                <Border Background="{StaticResource Button.PressedState.Background}" />
+                            </Border>
+                        </Grid>
+                        <Grid x:Name="CheckedState" Opacity="0">
+                            <Border Background="{StaticResource Button.CheckedState.Border1}" Padding="1">
+                                <Border Background="{StaticResource Button.CheckedState.Background}" />
+                            </Border>
+                        </Grid>
+                        <Grid Margin="2">
+                            <ContentPresenter x:Name="contentPresenter" Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="DefaultState" Property="Opacity" Value="0" />
+                            <Setter TargetName="HoverState" Property="Opacity" Value="1" />
+                            <Setter TargetName="PressedState" Property="Opacity" Value="0" />
+                            <Setter TargetName="CheckedState" Property="Opacity" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="DefaultState" Property="Opacity" Value="0" />
+                            <Setter TargetName="HoverState" Property="Opacity" Value="0" />
+                            <Setter TargetName="PressedState" Property="Opacity" Value="1" />
+                            <Setter TargetName="CheckedState" Property="Opacity" Value="0" />
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter TargetName="DefaultState" Property="Opacity" Value="0" />
+                            <Setter TargetName="HoverState" Property="Opacity" Value="0" />
+                            <Setter TargetName="PressedState" Property="Opacity" Value="0" />
+                            <Setter TargetName="CheckedState" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="FocusState" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="Button.IsDefaulted" Value="True">
+                            <Setter TargetName="DefaultState" Property="Opacity" Value="0" />
+                            <Setter TargetName="HoverState" Property="Opacity" Value="1" />
+                            <Setter TargetName="PressedState" Property="Opacity" Value="0" />
+                            <Setter TargetName="CheckedState" Property="Opacity" Value="0" />
+                            <Setter TargetName="FocusState" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Root" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-    <SolidColorBrush x:Key="Button.DefaultState.CommandBorder1" Color="#FF6A6A6A"/>
-    <LinearGradientBrush x:Key="Button.DefaultState.CommandBorder2"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#B17E7E" Offset="0"/>
-        <GradientStop Color="#954141" Offset="1"/>
-    </LinearGradientBrush>
-
-    <SolidColorBrush x:Key="Button.HoverState.Border1" Color="#BFB89407"/>
-    <SolidColorBrush x:Key="Button.HoverState.AttachmentBorder1" Color="#FF6A6A6A"/>
-    <SolidColorBrush x:Key="Button.HoverState.CommandBorder1" Color="#FF6A6A6A"/>
-
-    <LinearGradientBrush x:Key="Button.HoverState.Border2"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FFF8F4E3" Offset="0"/>
-        <GradientStop Color="#FFFBFBEB" Offset="1"/>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="Button.HoverState.AttachmentBorder2"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FFEBA2" Offset="0"/>
-        <GradientStop Color="#FCD856" Offset="1"/>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="Button.HoverState.CommandBorder2"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#B17E7E" Offset="0"/>
-        <GradientStop Color="#954141" Offset="1"/>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="Button.HoverState.Border3"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FFECDDA2" Offset="0"/>
-        <GradientStop Color="#FFFBF3CB" Offset="1"/>
-        <GradientStop Color="#FFECD377" Offset="0.5"/>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="Button.HoverState.AttachmentBorder3"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FEE78A" Offset="0"/>
-        <GradientStop Color="#F8E378" Offset="1"/>
-        <GradientStop Color="#D8AF19" Offset="0.5"/>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="Button.HoverState.CommandBorder3"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#B17E7E" Offset="0"/>
-        <GradientStop Color="#996666" Offset="1"/>
-        <GradientStop Color="#954141" Offset="0.5"/>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="Button.PressedState.Border1"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#BFAB4600" Offset="0"/>
-        <GradientStop Color="#BFA97B10" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="Button.PressedState.Border2"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FFF6C867" Offset="0"/>
-        <GradientStop Color="#FFFAD77A" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="Button.PressedState.Border3"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FFF6C867" Offset="0"/>
-        <GradientStop Color="#FFFFE48A" Offset="1"/>
-        <GradientStop Color="#FFFFE48A" Offset="0.5"/>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="Button.CheckedState.Border1"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF636363" Offset="0"/>
-        <GradientStop Color="#FF6E6E6E" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="Button.CheckedState.Border2"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF717171" Offset="0"/>
-        <GradientStop Color="#FF7A7A7A" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="Button.CheckedState.Border3"
-                         EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF767676" Offset="0"/>
-        <GradientStop Color="#FF7B7B7B" Offset="1"/>
-        <GradientStop Color="#FF7B7B7B" Offset="0.3"/>
-    </LinearGradientBrush>
+    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource BaseButtonStyle}" />
 
 </ResourceDictionary>

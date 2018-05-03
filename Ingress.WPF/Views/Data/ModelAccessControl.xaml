@@ -7,6 +7,7 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:ctrls="clr-namespace:Ingress.WPF.Views.Controls"
              xmlns:data="clr-namespace:Ingress.WPF.ViewModels.Data"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance data:ModelAccessViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -31,9 +32,12 @@
         <ctrls:TimeSpanEditor Grid.Row="1" Grid.Column="1" EditValue="{Binding TimeTaken}" />
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Analyst: " />
-        <dxe:TextEdit Grid.Row="2" Grid.Column="1" NullText="Analyst Name(s)" ShowNullText="True" ShowNullTextForEmptyValue="True" />
-        
-        <Button Content="Save Changes" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveCommand}" />
+        <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="1" 
+                          NullText="Analyst Name(s)" ShowNullText="True" ShowNullTextForEmptyValue="True" 
+                          EditValue="{Binding Path=Analyst, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" EditValueType="system:String"
+                          ItemsSource="{Binding Path=DataContext.Analysts, RelativeSource={RelativeSource AncestorType=Window}}"
+                          IncrementalFiltering="True" IsTextEditable="True" ShowEditorButtons="False" AutoComplete="True" 
+                          ImmediatePopup="True" FilterCondition="Contains" />
 
     </Grid>
 </UserControl>

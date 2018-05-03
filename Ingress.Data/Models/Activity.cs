@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ingress.Data.Models
 {
+    [Table("Activity")]
     public abstract class Activity
     {
         [Key]

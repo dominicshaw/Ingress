@@ -10,6 +10,7 @@ namespace Ingress.Data.Interfaces
         void Create(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
+        void CancelChanges(TEntity entity);
         Task SaveChanges();
     }
 }

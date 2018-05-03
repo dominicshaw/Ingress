@@ -44,6 +44,12 @@ namespace Ingress.Data.Bases
             _context.Entry(entity).State = EntityState.Modified;
         }
 
+        public void CancelChanges(TEntity entity)
+        {
+            _context.Entry(entity).CurrentValues.SetValues(_context.Entry(entity).OriginalValues);
+            _context.Entry(entity).State = EntityState.Unchanged;
+        }
+
         public async Task SaveChanges()
         {
             await _context.SaveChangesAsync();

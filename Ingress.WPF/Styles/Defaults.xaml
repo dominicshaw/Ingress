@@ -16,6 +16,9 @@
     <Style TargetType="dxe:TextEdit">
         <Setter Property="Margin" Value="5,2" /> 
     </Style>
+    <Style TargetType="dxe:CheckEdit">
+        <Setter Property="Margin" Value="5,2" /> 
+    </Style>
     <Style TargetType="dxe:ComboBoxEdit">
         <Setter Property="Margin" Value="5,2" /> 
     </Style>

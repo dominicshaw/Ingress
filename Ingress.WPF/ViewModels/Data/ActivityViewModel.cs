@@ -1,33 +1,25 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using DevExpress.Mvvm;
 using Ingress.Data.DataSources;
-using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
+using JetBrains.Annotations;
 
 namespace Ingress.WPF.ViewModels.Data
 {
-    public class ActivityViewModel : INotifyPropertyChanged, IDataErrorInfo
+    public abstract class ActivityViewModel : SelectableViewModel, INotifyPropertyChanged, IDataErrorInfo
     {
-        private readonly IActivityRepository _repo;
         private readonly Activity _activity;
 
         private Broker _broker;
+        private bool _skipped;
 
-        public ICommand SaveCommand => new AsyncCommand(Save);
-
-        public ActivityViewModel(IActivityRepository repo, Activity activity)
+        protected ActivityViewModel(Activity activity)
         {
-            _repo = repo;
             _activity = activity;
-
-            Type = activity.GetType().ToString().Substring(activity.GetType().ToString().LastIndexOf(".") + 1);
         }
 
         public int ActivityID => _activity.ActivityID;
@@ -136,22 +128,23 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
-
-        public string Type { get; }
-
-        private async Task Save()
+        public virtual bool Skipped
         {
-            if (_activity.ActivityID == 0)
-                _repo.Create(_activity);
-            else
-                _repo.Update(_activity);
-
-            await _repo.SaveChanges();
+            get => _skipped;
+            set
+            {
+                if (value == _skipped) return;
+                _skipped = value;
+                OnPropertyChanged();
+            }
         }
+        public abstract string Type { get; }
 
+        public abstract Activity GetModel();
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [JetBrains.Annotations.NotifyPropertyChangedInvocator]
+        [NotifyPropertyChangedInvocator]
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -177,6 +170,18 @@ namespace Ingress.WPF.ViewModels.Data
                 }
 
                 return errors.ToString().Trim();
+            }
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var prop in GetType().GetProperties())
+                    foreach (ValidationAttribute att in prop.GetCustomAttributes(typeof(ValidationAttribute), true))
+                        if (!att.IsValid(prop.GetValue(this)))
+                            return false;
+                return true;
             }
         }
     }

@@ -7,14 +7,19 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:vms="clr-namespace:Ingress.WPF.ViewModels"
+                 xmlns:controls="clr-namespace:Ingress.WPF.Views.Controls"
+                 xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                 xmlns:converters="clr-namespace:Ingress.WPF.Converters"
                  mc:Ignorable="d" d:DataContext="{d:DesignInstance vms:MainViewModel}"
-                 Title="Ingress: Track Broker Activities" Height="700" Width="700">
+                 Title="Ingress: Track Broker Interactions" Height="700" Width="700"
+                 x:Name="wdw">
 
     <Grid>
 
         <Grid>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -23,27 +28,36 @@
             <dxr:RibbonControl Grid.Row="0" RibbonStyle="Office2010">
 
                 <dxr:RibbonControl.DataContext>
-                    <vms:NotifyIconViewModel />
+                    <vms:GlobalCommandsViewModel />
                 </dxr:RibbonControl.DataContext>
 
                 <dxr:RibbonControl.ToolbarItems>
-                    <dxb:BarButtonItemLink BarItemName="newItem"/>
+                    <dxb:BarButtonItemLink BarItemName="addAna"/>
+                    <dxb:BarButtonItemLink BarItemName="addCom"/>
+                    <dxb:BarButtonItemLink BarItemName="addPho"/>
+                    <dxb:BarButtonItemLink BarItemName="addEma"/>
+                    <dxb:BarButtonItemLink BarItemName="addMod"/>
                 </dxr:RibbonControl.ToolbarItems>
 
                 <dxr:RibbonDefaultPageCategory>
 
                     <dxr:RibbonPage Caption="Home">
 
-                        <dxr:RibbonPageGroup Caption="New Activity">
-                            <dxb:BarButtonItem Command="{Binding AddAnalystMeetingCommand}" Content="Analyst Meeting" LargeGlyph="{dx:DXImage Image=BOPerson_32x32.png}" />
-                            <dxb:BarButtonItem Command="{Binding AddCompanyMeetingCommand}" Content="Company Meeting" LargeGlyph="pack://application:,,,/DevExpress.Images.v17.2;component/DevAV/View/Meeting_32x32.png" />
-                            <dxb:BarButtonItem Command="{Binding AddPhoneCallCommand}"      Content="Phone Call"      LargeGlyph="{dx:DXImage Image=Phone_32x32.png}" />
-                            <dxb:BarButtonItem Command="{Binding AddBrokerEmailCommand}"    Content="Email"           LargeGlyph="{dx:DXImage Image=Mail_32x32.png}" />
-                            <dxb:BarButtonItem Command="{Binding AddModelAccessCommand}"    Content="Model Access"    LargeGlyph="{dx:DXImage Image=SpreadsheetGroup_32x32.png}" />
+                        <dxr:RibbonPageGroup Caption="New Interaction">
+                            <dxb:BarButtonItem x:Name="addAna" Command="{Binding AddAnalystMeetingCommand}" Content="Analyst Meeting" Glyph="{dx:DXImage Image=BOPerson_16x16.png}" LargeGlyph="{dx:DXImage Image=BOPerson_32x32.png}" />
+                            <dxb:BarButtonItem x:Name="addCom" Command="{Binding AddCompanyMeetingCommand}" Content="Company Meeting" Glyph="pack://application:,,,/DevExpress.Images.v17.2;component/DevAV/View/Meeting_16x16.png" LargeGlyph="pack://application:,,,/DevExpress.Images.v17.2;component/DevAV/View/Meeting_32x32.png" />
+                            <dxb:BarButtonItem x:Name="addPho" Command="{Binding AddPhoneCallCommand}"      Content="Phone Call"      Glyph="pack://application:,,,/DevExpress.Images.v17.2;component/DevAV/Contacts/Phone_16x16.png" LargeGlyph="{dx:DXImage Image=Phone_32x32.png}" />
+                            <dxb:BarButtonItem x:Name="addEma" Command="{Binding AddBrokerEmailCommand}"    Content="Email"           Glyph="{dx:DXImage Image=Mail_16x16.png}" LargeGlyph="{dx:DXImage Image=Mail_32x32.png}" />
+                            <dxb:BarButtonItem x:Name="addMod" Command="{Binding AddModelAccessCommand}"    Content="Model Access"    Glyph="{dx:DXImage Image=SpreadsheetGroup_16x16.png}" LargeGlyph="{dx:DXImage Image=SpreadsheetGroup_32x32.png}" />
                         </dxr:RibbonPageGroup>
 
-                        <dxr:RibbonPageGroup Caption="Commands">
-                            <dxb:BarButtonItem Content="Save" LargeGlyph="{dx:DXImage Image=Save_32x32.png}"/>
+                        <dxr:RibbonPageGroup Caption="View">
+                            <dxb:BarButtonItem Command="{Binding ListViewCommand}" Content="List View" LargeGlyph="pack://application:,,,/DevExpress.Images.v17.2;component/DevAV/Layout/List_32x32.png"/>
+                        </dxr:RibbonPageGroup>
+
+                        <dxr:RibbonPageGroup Caption="Commands" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext}">
+                            <dxb:BarButtonItem Content="Cancel" Command="{Binding CancelCommand}" CommandParameter="{Binding SelectedView}" LargeGlyph="{dx:DXImage Image=Cancel_32x32.png}" />
+                            <dxb:BarButtonItem Content="Save"   Command="{Binding SaveCommand}"   LargeGlyph="{dx:DXImage Image=Save_32x32.png}" />
                         </dxr:RibbonPageGroup>
 
                     </dxr:RibbonPage>
@@ -52,16 +66,26 @@
 
             </dxr:RibbonControl>
 
-            <ContentPresenter Grid.Row="1" Content="{Binding SelectedView}" />
+            <controls:FlashMessage Grid.Row="1" FadeOutTime="0.00:00:05" Message="{Binding FlashMessage, Mode=TwoWay}" MessageType="Success" />
 
-            <dxr:RibbonStatusBarControl Grid.Row="2">
+            <ContentPresenter Grid.Row="2" Content="{Binding SelectedView}">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand EventName="DataContextChanged" Command="{Binding DataContext.LayoutsCommands, RelativeSource={RelativeSource AncestorType=Window}}">
+                        <dxmvvm:EventToCommand.EventArgsConverter>
+                            <converters:DataContextChangedEventConverter />
+                        </dxmvvm:EventToCommand.EventArgsConverter>
+                    </dxmvvm:EventToCommand>
+                </dxmvvm:Interaction.Behaviors>
+            </ContentPresenter>
+
+            <dxr:RibbonStatusBarControl Grid.Row="3">
                 <dxr:RibbonStatusBarControl.RightItems>
                     <dxb:BarButtonItem Content="Print" Glyph="{dx:DXImage Image=Print_16x16.png}"/>
                 </dxr:RibbonStatusBarControl.RightItems>
             </dxr:RibbonStatusBarControl>
 
         </Grid>
-        
+
         <Grid Visibility="{Binding Working, Converter={dx:BooleanToVisibilityConverter}}">
             <Grid Background="Black" Opacity="0.2" />
             <dx:WaitIndicator DeferedVisibility="{Binding Working}">

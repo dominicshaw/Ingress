@@ -36,6 +36,11 @@ namespace Ingress.Data.Mocks
 
         }
 
+        public void CancelChanges(Activity entity)
+        {
+            
+        }
+
         public async Task SaveChanges()
         {
             await Task.CompletedTask;

@@ -1,4 +1,5 @@
-﻿using Ingress.WPF.ViewModels.Data;
+﻿using Ingress.Data.Models;
+using Ingress.WPF.ViewModels.Data;
 
 namespace Ingress.WPF.Factories
 {
@@ -7,5 +8,6 @@ namespace Ingress.WPF.Factories
     public interface INewActivityFactory
     {
         event NewActivityEventHandler NewActivity;
+        ActivityViewModel Load(Activity activity);
     }
 }

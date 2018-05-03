@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ingress.Data.Models
 {
-    [Table("CompanyMeetings")]
+    [Table("CompanyMeeting")]
     public class CompanyMeeting : Activity
     {
         [MaxLength(200)]
@@ -17,5 +17,7 @@ namespace Ingress.Data.Models
         public bool? IsDirect { get; set; }
         [MaxLength(200)]
         public string CalID { get; set; }
+
+        public bool Skipped { get; set; }
     }
 }

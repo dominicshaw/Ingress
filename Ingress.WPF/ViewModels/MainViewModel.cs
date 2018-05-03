@@ -4,28 +4,36 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using DevExpress.Mvvm;
 using Ingress.Data.DataSources;
 using Ingress.Data.Interfaces;
+using Ingress.WPF.Converters;
 using Ingress.WPF.Factories;
 using Ingress.WPF.ViewModels.Data;
+using Ingress.WPF.ViewModels.MessengerCommands;
 using JetBrains.Annotations;
 using log4net;
 
 namespace Ingress.WPF.ViewModels
 {
     [UsedImplicitly]
-    public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
+    public class MainViewModel : INotifyPropertyChanged
     {
         private readonly ILog _log;
 
         private readonly IActivityRepository _activityRepository;
         private readonly IDataSourcesRepository _dataSourcesRepository;
-        private readonly INewActivityFactory _newActivityFactory;
+        private readonly ILoadActivityFactory _newActivityFactory;
 
-        private object _selectedView;
+        private SelectableViewModel _selectedView;
         private List<string> _analysts;
         private List<Broker> _brokers;
         private bool _working;
+        private string _flashMessage;
+
+        public ICommand CancelCommand => new AsyncCommand<ActivityViewModel>(Cancel, _ => SelectedView is ActivityViewModel);
+        public ICommand SaveCommand => new AsyncCommand(Save, () => SelectedView is ActivityViewModel a && a.IsValid);
 
         public List<string> Analysts
         {
@@ -49,13 +57,26 @@ namespace Ingress.WPF.ViewModels
             }
         }
 
-        public object SelectedView
+        public SelectableViewModel SelectedView
         {
             get => _selectedView;
             set
             {
                 if (Equals(value, _selectedView)) return;
                 _selectedView = value;
+                OnPropertyChanged(nameof(CancelCommand));
+                OnPropertyChanged(nameof(SaveCommand));
+                OnPropertyChanged();
+            }
+        }
+
+        public string FlashMessage
+        {
+            get => _flashMessage;
+            set
+            {
+                if (value == _flashMessage) return;
+                _flashMessage = value;
                 OnPropertyChanged();
             }
         }
@@ -71,7 +92,14 @@ namespace Ingress.WPF.ViewModels
             }
         }
 
-        public MainViewModel(ILog log, IActivityRepository activityRepository, IDataSourcesRepository dataSourcesRepository, INewActivityFactory newActivityFactory)
+        public ICommand LayoutsCommands => new DelegateCommand<DataContextChange>(LayoutChange);
+
+        private static void LayoutChange(DataContextChange change)
+        {
+            if (change.Old != null) Messenger.Default.Send(new SaveLayoutCommand(change.Old));
+        }
+
+        public MainViewModel(ILog log, IActivityRepository activityRepository, IDataSourcesRepository dataSourcesRepository, ILoadActivityFactory newActivityFactory)
         {
             _log = log;
 
@@ -79,29 +107,25 @@ namespace Ingress.WPF.ViewModels
             _dataSourcesRepository = dataSourcesRepository;
             _newActivityFactory = newActivityFactory;
 
-            _newActivityFactory.NewActivity += NewActivity;
-        }
-
-        private void NewActivity(ActivityViewModel activity)
-        {
-            SelectedView = activity;
+            Messenger.Default.Register<NavigationCommand>(this, async cmd => await Navigate(cmd));
         }
 
         public async Task Start()
         {
             var sw = new Stopwatch();
             sw.Start();
-
+            
             try
             {
                 Working = true;
-                var vm = new ActivitiesViewModel(_activityRepository);
+                
+                Analysts = await _dataSourcesRepository.GetAnalysts();
+                Brokers = await _dataSourcesRepository.GetBrokers();
+
+                var vm = new ActivitiesViewModel(_activityRepository, _newActivityFactory, Brokers);
                 SelectedView = vm;
 
                 await vm.Start();
-
-                Analysts = await _dataSourcesRepository.GetAnalysts();
-                Brokers = await _dataSourcesRepository.GetBrokers();
             }
             finally
             {
@@ -112,17 +136,82 @@ namespace Ingress.WPF.ViewModels
             }
         }
 
+        private async Task Navigate(NavigationCommand cmd)
+        {
+            try
+            {
+                switch (cmd.GoWhere)
+                {
+                    case Where.List:
+                        await Start();
+                        break;
+                    case Where.Activity:
+                        SelectedView = cmd.Activity;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                SelectedView = new ErrorMessageViewModel(ex);
+            }
+        }
+        
+        private async Task Cancel(ActivityViewModel activity)
+        {
+            try
+            {
+                if (activity.ActivityID != 0)
+                    _activityRepository.CancelChanges(activity.GetModel());
+
+                await Start();
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                SelectedView = new ErrorMessageViewModel(ex);
+            }
+        }
+
+        private async Task Save()
+        {
+            try
+            { 
+                var name = string.Empty;
+
+                if (SelectedView is ActivityViewModel activity)
+                {
+                    var model = activity.GetModel();
+
+                    if (model.ActivityID == 0)
+                        _activityRepository.Create(model);
+                    else
+                        _activityRepository.Update(model);
+
+                    await _activityRepository.SaveChanges();
+
+                    name = activity.Subject;
+                }
+
+                await Start();
+
+                FlashMessage = $"Successfully saved interaction \'{name}\'.";
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                SelectedView = new ErrorMessageViewModel(ex);
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void Dispose()
-        {
-            _newActivityFactory.NewActivity -= NewActivity;
         }
     }
 }

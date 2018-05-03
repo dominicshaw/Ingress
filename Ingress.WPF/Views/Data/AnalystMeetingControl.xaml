@@ -4,9 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ingress.WPF.Views.Data"
-             mc:Ignorable="d" 
+             xmlns:controls="clr-namespace:Ingress.WPF.Views.Controls"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:data="clr-namespace:Ingress.WPF.ViewModels.Data"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance data:AnalystMeetingViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <local:ActivityControl Grid.Row="0" Grid.Column="0" />
+
+    <Grid Background="White">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="140" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <local:ActivityControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Meeting Time: " />
+        <controls:TimeSpanEditor Grid.Row="1" Grid.Column="1" EditValue="{Binding TimeTaken, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Analyst: " />
+        <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="1" 
+                          NullText="Analyst Name(s)" ShowNullText="True" ShowNullTextForEmptyValue="True" 
+                          EditValue="{Binding Path=Analyst, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" EditValueType="system:String"
+                          ItemsSource="{Binding Path=DataContext.Analysts, RelativeSource={RelativeSource AncestorType=Window}}"
+                          IncrementalFiltering="True" IsTextEditable="True" ShowEditorButtons="False" AutoComplete="True" 
+                          ImmediatePopup="True" FilterCondition="Contains" />
+        
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Is Conference? " />
+        <dxe:CheckEdit Grid.Row="3" Grid.Column="1" EditValue="{Binding IsConference, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Skipped?" />
+        <dxe:CheckEdit Grid.Row="4" Grid.Column="1" EditValue="{Binding IsConference, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
     </Grid>
+
 </UserControl>

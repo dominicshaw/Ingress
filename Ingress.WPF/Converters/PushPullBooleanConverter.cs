@@ -5,6 +5,7 @@ using System.Windows.Markup;
 
 namespace Ingress.WPF.Converters
 {
+    [ValueConversion(typeof(string), typeof(bool))]
     public class PushPullBooleanConverter : MarkupExtension, IValueConverter
     {
         public bool Push { get; set; }

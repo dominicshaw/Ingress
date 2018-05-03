@@ -14,7 +14,8 @@ namespace Ingress.WPF.Factories
     public class NewActivityFactory : INewActivityFactory
     {
         private readonly ILog _log;
-        private readonly Dictionary<int, Func<ActivityViewModel>> _creator = new Dictionary<int, Func<ActivityViewModel>>();
+        private readonly Dictionary<int, Func<ActivityViewModel>> _newActivities = new Dictionary<int, Func<ActivityViewModel>>();
+        private readonly Dictionary<Type, Func<Activity, ActivityViewModel>> _loadActivities = new Dictionary<Type, Func<Activity, ActivityViewModel>>();
 
         public event NewActivityEventHandler NewActivity;
 
@@ -22,19 +23,30 @@ namespace Ingress.WPF.Factories
         {
             _log = log;
 
-            _creator.Add(ActivityTypes.AnalystMeeting.ID, () => new AnalystMeetingViewModel(repository, new AnalystMeeting()));
-            _creator.Add(ActivityTypes.CompanyMeeting.ID, () => new CompanyMeetingViewModel(repository, new CompanyMeeting()));
-            _creator.Add(ActivityTypes.PhoneCall.ID, () => new PhoneCallViewModel(repository, new PhoneCall()));
-            _creator.Add(ActivityTypes.BrokerEmail.ID, () => new BrokerEmailViewModel(repository, new BrokerEmail()));
-            _creator.Add(ActivityTypes.ModelAccess.ID, () => new ModelAccessViewModel(repository, new ModelAccess()));
+            _newActivities.Add(ActivityTypes.AnalystMeeting.ID, () => new AnalystMeetingViewModel(new AnalystMeeting()));
+            _newActivities.Add(ActivityTypes.CompanyMeeting.ID, () => new CompanyMeetingViewModel(new CompanyMeeting()));
+            _newActivities.Add(ActivityTypes.PhoneCall.ID, () => new PhoneCallViewModel(new PhoneCall()));
+            _newActivities.Add(ActivityTypes.BrokerEmail.ID, () => new BrokerEmailViewModel(new BrokerEmail()));
+            _newActivities.Add(ActivityTypes.ModelAccess.ID, () => new ModelAccessViewModel(new ModelAccess()));
+
+            _loadActivities.Add(typeof(AnalystMeeting), activity => new AnalystMeetingViewModel((AnalystMeeting) activity));
+            _loadActivities.Add(typeof(CompanyMeeting), activity => new CompanyMeetingViewModel((CompanyMeeting) activity));
+            _loadActivities.Add(typeof(PhoneCall), activity => new PhoneCallViewModel((PhoneCall) activity));
+            _loadActivities.Add(typeof(BrokerEmail), activity => new BrokerEmailViewModel((BrokerEmail) activity));
+            _loadActivities.Add(typeof(ModelAccess), activity => new ModelAccessViewModel((ModelAccess) activity));
 
             Messenger.Default.Register<NewActivityRequest>(this, MessengerMessageReceived);
+        }
+
+        public ActivityViewModel Load(Activity activity)
+        {
+            return _loadActivities[activity.GetType()].Invoke(activity);
         }
 
         private void MessengerMessageReceived(NewActivityRequest message)
         {
             _log.Info("New Activity: " + message.ActivityType);
-            NewActivity?.Invoke(_creator[message.ActivityType.ID].Invoke());
+            NewActivity?.Invoke(_newActivities[message.ActivityType.ID].Invoke());
         }
     }
 }

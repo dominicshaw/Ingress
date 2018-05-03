@@ -6,6 +6,8 @@
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:vms="clr-namespace:Ingress.WPF.ViewModels"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:converters="clr-namespace:Ingress.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance vms:ActivitiesViewModel}">
     <Grid>
@@ -15,7 +17,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <dxg:GridControl ItemsSource="{Binding Activities}" x:Name="grid" AutoExpandAllGroups="True" Grid.Row="0" MaxHeight="10000">
+        <dxg:GridControl ItemsSource="{Binding Activities}" x:Name="allActivitiesGrid" AutoExpandAllGroups="True" Grid.Row="0" MaxHeight="10000">
 
             <dxg:GridColumn FieldName="Type" IsSmart="True" Visible="True" GroupIndex="0" />
             <dxg:GridColumn FieldName="ActivityID" IsSmart="True" Visible="False" />
@@ -38,17 +40,31 @@
             </dxg:GridColumn>
             <dxg:GridColumn FieldName="BrokerId" IsSmart="True" Visible="False" FilterPopupMode="CheckedList" />
             <dxg:GridColumn FieldName="BrokerName" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+            <dxg:GridColumn FieldName="Broker" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
             <dxg:GridColumn FieldName="Rating" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
             <dxg:GridColumn FieldName="Comments" IsSmart="True" Visible="True" />
-            <dxg:GridColumn FieldName="PushOrPull" Header="Push/Pull"  IsSmart="True"/>
-            
+            <dxg:GridColumn FieldName="PushOrPull" Header="Push/Pull" IsSmart="True"/>
+            <dxg:GridColumn FieldName="Skipped" Header="Skipped?" IsSmart="True"/>
+
             <dxg:GridControl.View>
-                <dxg:TableView AutoWidth="True" AllowEditing="False" />
+                <dxg:TableView AutoWidth="True" AllowEditing="False" NavigationStyle="Row" />
             </dxg:GridControl.View>
 
+            <dxg:GridControl.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding NavigateCommand}" CommandParameter="{Binding ElementName=allActivitiesGrid, Path=SelectedItem}" />
+            </dxg:GridControl.InputBindings>
+
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding RestoreLayoutsCommands}">
+                    <dxmvvm:EventToCommand.EventArgsConverter>
+                        <converters:GridControlEventToGridControlConverter />
+                    </dxmvvm:EventToCommand.EventArgsConverter>
+                </dxmvvm:EventToCommand>
+            </dxmvvm:Interaction.Behaviors>
+
         </dxg:GridControl>
-        
-        <ContentPresenter Grid.Row="1" Content="{Binding ElementName=grid, Path=SelectedItem}" />
+
+        <!--<ContentPresenter Grid.Row="1" Content="{Binding ElementName=grid, Path=SelectedItem}" />-->
 
     </Grid>
 </UserControl>

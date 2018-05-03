@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
 
 namespace Ingress.WPF.ViewModels.Data
@@ -8,7 +7,7 @@ namespace Ingress.WPF.ViewModels.Data
     {
         private readonly BrokerEmail _activity;
 
-        public BrokerEmailViewModel(IActivityRepository repo, BrokerEmail activity) : base(repo, activity)
+        public BrokerEmailViewModel(BrokerEmail activity) : base(activity)
         {
             _activity = activity;
         }
@@ -24,5 +23,8 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
+
+        public override string Type => "Email";
+        public override Activity GetModel() => _activity;
     }
 }

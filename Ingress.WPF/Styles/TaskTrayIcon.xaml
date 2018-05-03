@@ -13,7 +13,7 @@
                     PopupActivation="DoubleClick">
 
                 <tb:TaskbarIcon.DataContext>
-                    <vms:NotifyIconViewModel />
+                    <vms:GlobalCommandsViewModel />
                 </tb:TaskbarIcon.DataContext>
 
                 <tb:TaskbarIcon.TrayToolTip>

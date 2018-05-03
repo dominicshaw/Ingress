@@ -34,7 +34,7 @@ namespace Ingress.WPF
 
             _kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target?.Member.DeclaringType?.FullName));
 
-            if (false)
+            if (true)
             {
                 _kernel.Bind<IActivityRepository>().To<MockActivityRepository>(); // MockActivityRepository
                 _kernel.Bind<IDataSourcesRepository>().To<MockDataSourcesRepository>(); // MockDataSourcesRepository
@@ -45,7 +45,7 @@ namespace Ingress.WPF
                 _kernel.Bind<IDataSourcesRepository>().To<DataSourcesRepository>(); // MockDataSourcesRepository
             }
 
-            _kernel.Bind<INewActivityFactory>().To<NewActivityFactory>();
+            _kernel.Bind<ILoadActivityFactory>().To<LoadActivityFactory>();
 
             Start();
         }

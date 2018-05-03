@@ -8,14 +8,16 @@
     <DataTemplate DataType="{x:Type vms:ActivitiesViewModel}">
         <views:AllActivitiesGrid />
     </DataTemplate>
+
     <DataTemplate DataType="{x:Type dvms:ActivityViewModel}">
         <dviews:ActivityControl />
     </DataTemplate>
+
     <DataTemplate DataType="{x:Type dvms:AnalystMeetingViewModel}">
-        <dviews:ActivityControl />
+        <dviews:AnalystMeetingControl />
     </DataTemplate>
     <DataTemplate DataType="{x:Type dvms:CompanyMeetingViewModel}">
-        <dviews:ActivityControl />
+        <dviews:CompanyMeetingControl />
     </DataTemplate>
     <DataTemplate DataType="{x:Type dvms:PhoneCallViewModel}">
         <dviews:PhoneCallControl />
@@ -25,6 +27,10 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type dvms:ModelAccessViewModel}">
         <dviews:ModelAccessControl />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vms:ErrorMessageViewModel}">
+        <views:ErrorControl />
     </DataTemplate>
 
 </ResourceDictionary>

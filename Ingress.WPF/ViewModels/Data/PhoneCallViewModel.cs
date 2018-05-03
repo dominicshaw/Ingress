@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
 
 namespace Ingress.WPF.ViewModels.Data
@@ -9,7 +8,7 @@ namespace Ingress.WPF.ViewModels.Data
     {
         private readonly PhoneCall _activity;
 
-        public PhoneCallViewModel(IActivityRepository repo, PhoneCall activity) : base(repo, activity)
+        public PhoneCallViewModel(PhoneCall activity) : base(activity)
         {
             _activity = activity;
         }
@@ -44,5 +43,8 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
+        
+        public override string Type => "Phone Call";
+        public override Activity GetModel() => _activity;
     }
 }

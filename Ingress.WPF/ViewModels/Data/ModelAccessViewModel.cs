@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Ingress.Data.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
 using Ingress.Data.Models;
 
 namespace Ingress.WPF.ViewModels.Data
@@ -9,7 +7,7 @@ namespace Ingress.WPF.ViewModels.Data
     {
         private readonly ModelAccess _activity;
 
-        public ModelAccessViewModel(IActivityRepository repo, ModelAccess activity) : base(repo, activity)
+        public ModelAccessViewModel(ModelAccess activity) : base(activity)
         {
             _activity = activity;
         }
@@ -25,5 +23,8 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
+        
+        public override string Type => "Model Access";
+        public override Activity GetModel() => _activity;
     }
 }

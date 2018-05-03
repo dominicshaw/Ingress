@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
 
 namespace Ingress.WPF.ViewModels.Data
@@ -8,7 +7,7 @@ namespace Ingress.WPF.ViewModels.Data
     {
         private readonly CompanyMeeting _activity;
 
-        public CompanyMeetingViewModel(IActivityRepository repo, CompanyMeeting activity) : base(repo, activity)
+        public CompanyMeetingViewModel(CompanyMeeting activity) : base(activity)
         {
             _activity = activity;
         }
@@ -29,5 +28,18 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
+        public override bool Skipped
+        {
+            get => _activity.Skipped;
+            set
+            {
+                if (value == _activity.Skipped) return;
+                _activity.Skipped = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public override string Type => "Company Meeting";
+        public override Activity GetModel() => _activity;
     }
 }

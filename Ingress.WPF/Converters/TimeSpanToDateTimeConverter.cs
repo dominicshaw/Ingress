@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using System.Windows.Markup;
-using JetBrains.Annotations;
 
 namespace Ingress.WPF.Converters
 {
@@ -34,14 +31,6 @@ namespace Ingress.WPF.Converters
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             return this;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

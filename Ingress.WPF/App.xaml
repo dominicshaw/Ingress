@@ -1,9 +1,6 @@
 ﻿<Application x:Class="Ingress.WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:tb="http://www.hardcodet.net/taskbar"
-             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:vms="clr-namespace:Ingress.WPF.ViewModels"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
 
@@ -13,6 +10,7 @@
                 <ResourceDictionary Source="Styles/Defaults.xaml" />
                 <ResourceDictionary Source="Styles/Templating.xaml" />
                 <ResourceDictionary Source="Styles/TaskTrayIcon.xaml" />
+                <ResourceDictionary Source="Styles/FlashMessageStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 

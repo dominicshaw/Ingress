@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ingress.Data.Models
 {
-    [Table("AnalystMeetings")]
+    [Table("AnalystMeeting")]
     public class AnalystMeeting : Activity
     {
         [MaxLength(200)]
@@ -22,6 +22,8 @@ namespace Ingress.Data.Models
         public bool? IsConference { get; set; }
         [MaxLength(200)]
         public string CalID { get; set; }
+
+        public bool Skipped { get; set; }
 
         public AnalystMeeting()
         {

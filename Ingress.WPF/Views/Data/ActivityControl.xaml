@@ -8,6 +8,7 @@
              xmlns:ctrls="clr-namespace:Ingress.WPF.Views.Controls"
              xmlns:converters="clr-namespace:Ingress.WPF.Converters"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance dvms:ActivityViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -26,6 +27,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -35,25 +37,53 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Subject: " />
-        <TextBlock Grid.Column="0" Grid.Row="1" Text="Date / Time Range: " />
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Broker: " />
-        <TextBlock Grid.Column="0" Grid.Row="3" Text="Rating: " />
-        <TextBlock Grid.Column="0" Grid.Row="4" Text="Comments: " />
-        <TextBlock Grid.Column="0" Grid.Row="5" Text="Push / Pull: " />
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="User: " />
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Subject: " />
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Date / Time Range: " />
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Broker: " />
+        <TextBlock Grid.Column="0" Grid.Row="4" Text="Rating: " />
+        <TextBlock Grid.Column="0" Grid.Row="5" Text="Comments: " VerticalAlignment="Top" />
+        <TextBlock Grid.Column="0" Grid.Row="6" Text="Push / Pull: " />
 
-        <dxe:TextEdit Margin="5,2" Grid.Column="1" Grid.Row="0" EditValue="{Binding Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <ctrls:DateAndTimeRangeControl Grid.Column="1" Grid.Row="1" StartDate="{Binding DateStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EndDate="{Binding DateEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <dxe:TextEdit Grid.Column="1" Grid.Row="0" EditValue="{Binding Username, Mode=OneWay}" IsReadOnly="True" />
+        <dxe:TextEdit Grid.Column="1" Grid.Row="1" EditValue="{Binding Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <ctrls:DateAndTimeRangeControl Grid.Column="1" Grid.Row="2"
+                                       StartDate="{Binding DateStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                       EndDate="{Binding DateEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <dxg:LookUpEdit Grid.Column="1" Grid.Row="3" Margin="5,2" 
+                        EditValue="{Binding Broker, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                        ItemsSource="{Binding Path=DataContext.Brokers, RelativeSource={RelativeSource AncestorType=Window}}"
+                        IsTextEditable="True" AutoPopulateColumns="False" AutoComplete="True" IncrementalFiltering="True" FilterCondition="Contains" ImmediatePopup="True">
+            <dxg:LookUpEdit.PopupContentTemplate>
+                <ControlTemplate>
+                    <dxg:GridControl Name="PART_GridControl" SelectionMode="Row">
+                        <dxg:GridControl.Columns>
+                            <dxg:GridColumn FieldName="Name" Width="30" />
+                        </dxg:GridControl.Columns>
+                        <dxg:GridControl.View>
+                            <dxg:TableView AutoWidth="True" />
+                        </dxg:GridControl.View>
+                    </dxg:GridControl>
+                </ControlTemplate>
+            </dxg:LookUpEdit.PopupContentTemplate>
+        </dxg:LookUpEdit>
+        <dxe:RatingEdit Grid.Column="1" Grid.Row="4" Margin="5,2"  Precision="Full" ItemsCount="5" EditValue="{Binding Rating, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" EditValueType="system:Int32" />
+        <dxe:TextEdit Grid.Column="1" Grid.Row="5" AcceptsReturn="True" AcceptsTab="False" EditValue="{Binding Comments}" MinHeight="90" VerticalContentAlignment="Top" />
 
-        <dxe:ComboBoxEdit Margin="5,2" Grid.Column="1" Grid.Row="2" EditValue="{Binding Broker}" ItemsSource="{Binding DataContext.Brokers, RelativeSource={RelativeSource AncestorType=Window}}" />
-        <dxe:RatingEdit Margin="5,2" Grid.Column="1" Grid.Row="3" Precision="Full" ItemsCount="5" EditValue="{Binding Rating, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" EditValueType="system:Int32" />
-        <dxe:TextEdit Margin="5,2" Grid.Column="1" Grid.Row="4" AcceptsReturn="True" AcceptsTab="False" EditValue="{Binding Comments}" MinHeight="90" />
-
-        <Grid Grid.Column="1" Grid.Row="5">
+        <Grid Grid.Column="1" Grid.Row="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="../../Styles/ToggleButtonStyles.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Grid.Resources>
+
             <ToggleButton Margin="5,2" Grid.Column="0" Content="Push" MinWidth="120" IsChecked="{Binding PushOrPull, Converter={converters:PushPullBooleanConverter Pull=False, Push=True}}" />
             <ToggleButton Margin="5,2" Grid.Column="1" Content="Pull" MinWidth="120" IsChecked="{Binding PushOrPull, Converter={converters:PushPullBooleanConverter Pull=True, Push=False}}" />
         </Grid>
