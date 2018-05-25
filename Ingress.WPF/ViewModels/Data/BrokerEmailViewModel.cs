@@ -23,7 +23,7 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
-
+        
         public override string Type => "Email";
         public override Activity GetModel() => _activity;
     }

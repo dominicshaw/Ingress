@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:hlp="clr-namespace:Ingress.Mobile.Helpers;assembly=Ingress.Mobile"
+             x:Class="Ingress.Mobile.Views.AnalystMeetingPage"
+             IsBusy="{Binding IsBusy}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+
+        <Grid>
+
+            <Grid Margin="10">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Text="Meeting Time: " />
+                <Label Grid.Row="1" Grid.Column="0" Text="Analyst: " />
+                <Label Grid.Row="2" Grid.Column="0" Text="Is Conference? " />
+
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Picker Grid.Column="0" ItemsSource="{x:Static hlp:DataCollections.Hours}" SelectedItem="{Binding Hours}" />
+                    <Label Grid.Column="1" Text="hrs" />
+                    <Picker Grid.Column="2" ItemsSource="{x:Static hlp:DataCollections.Minutes}" SelectedItem="{Binding Minutes}" />
+                    <Label Grid.Column="3" Text="mins" />
+                </Grid>
+
+                <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Analyst}" />
+                <Switch Grid.Row="2" Grid.Column="1" IsToggled="{Binding IsConference}" />
+
+                <Label Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding ValidationErrors}" TextColor="Red" />
+
+            </Grid>
+
+            <Grid IsVisible="{Binding IsBusy}">
+                <Grid BackgroundColor="Black" Opacity="0.2" />
+                <ActivityIndicator IsRunning="{Binding IsBusy}" />
+            </Grid>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

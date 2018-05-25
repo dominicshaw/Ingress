@@ -13,31 +13,31 @@ namespace Ingress.WPF.Views.Controls
 
         public static readonly DependencyProperty HoursProperty = DependencyProperty.Register(
             nameof(Hours),
-            typeof(int),
+            typeof(int?),
             typeof(TimeSpanEditor),
             new FrameworkPropertyMetadata(OnHoursChanged) { BindsTwoWayByDefault = true });
 
         public static readonly DependencyProperty MinutesProperty = DependencyProperty.Register(
             nameof(Minutes),
-            typeof(int),
+            typeof(int?),
             typeof(TimeSpanEditor),
             new FrameworkPropertyMetadata(OnMinutesChanged) { BindsTwoWayByDefault = true });
-        
+
         public TimeSpan EditValue
         {
             get { return (TimeSpan)GetValue(EditValueProperty); }
             set { SetValue(EditValueProperty, value); }
         }
 
-        public int Hours
+        public int? Hours
         {
-            get => (int) GetValue(HoursProperty);
+            get => (int?)GetValue(HoursProperty);
             set => SetValue(HoursProperty, value);
         }
 
-        public int Minutes
+        public int? Minutes
         {
-            get => (int) GetValue(MinutesProperty);
+            get => (int?)GetValue(MinutesProperty);
             set => SetValue(MinutesProperty, value);
         }
 
@@ -59,7 +59,7 @@ namespace Ingress.WPF.Views.Controls
         {
             if (d is TimeSpanEditor editor && e.NewValue is int i)
             {
-                editor.SetCurrentValue(EditValueProperty, new TimeSpan(0, i, editor.Minutes, 0));
+                editor.SetCurrentValue(EditValueProperty, new TimeSpan(0, i, editor.Minutes ?? 0, 0));
             }
         }
 
@@ -67,7 +67,7 @@ namespace Ingress.WPF.Views.Controls
         {
             if (d is TimeSpanEditor editor && e.NewValue is int i)
             {
-                editor.SetCurrentValue(EditValueProperty, new TimeSpan(0, editor.Hours, i, 0));
+                editor.SetCurrentValue(EditValueProperty, new TimeSpan(0, editor.Hours ?? 0, i, 0));
             }
         }
     }

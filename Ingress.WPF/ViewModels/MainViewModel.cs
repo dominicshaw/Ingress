@@ -8,6 +8,8 @@ using System.Windows.Input;
 using DevExpress.Mvvm;
 using Ingress.Data.DataSources;
 using Ingress.Data.Interfaces;
+using Ingress.Data.Models;
+using Ingress.Data.Repositories;
 using Ingress.WPF.Factories;
 using Ingress.WPF.ViewModels.Data;
 using Ingress.WPF.ViewModels.MessengerCommands;
@@ -21,15 +23,14 @@ namespace Ingress.WPF.ViewModels
     {
         private readonly ILog _log;
 
-        private readonly IActivityRepository _activityRepository;
         private readonly IDataSourcesRepository _dataSourcesRepository;
         private readonly ILoadActivityFactory _newActivityFactory;
 
         private SelectableViewModel _selectedView;
         private List<string> _analysts;
         private List<Broker> _brokers;
-        private bool _working;
         private string _flashMessage;
+        private bool _working;
 
         public ICommand CancelCommand => new AsyncCommand<ActivityViewModel>(Cancel, _ => SelectedView is ActivityViewModel);
         public ICommand SaveCommand => new AsyncCommand(Save, () => SelectedView is ActivityViewModel a && a.IsValid);
@@ -98,11 +99,10 @@ namespace Ingress.WPF.ViewModels
             if (from != null) Messenger.Default.Send(new SaveLayoutCommand(from));
         }
 
-        public MainViewModel(ILog log, IActivityRepository activityRepository, IDataSourcesRepository dataSourcesRepository, ILoadActivityFactory newActivityFactory)
+        public MainViewModel(ILog log, IDataSourcesRepository dataSourcesRepository, ILoadActivityFactory newActivityFactory)
         {
             _log = log;
 
-            _activityRepository = activityRepository;
             _dataSourcesRepository = dataSourcesRepository;
             _newActivityFactory = newActivityFactory;
 
@@ -124,7 +124,7 @@ namespace Ingress.WPF.ViewModels
                     Brokers = await _dataSourcesRepository.GetBrokers();
                 }
                 
-                var vm = new ActivitiesViewModel(_activityRepository, _newActivityFactory, Brokers);
+                var vm = new ActivitiesViewModel(_newActivityFactory, Brokers);
                 SelectedView = vm;
                 
                 await Task.Delay(1000); // TODO - the date control is fucking up right here; when the view is changed, it sets the values to mindate, which actually changes the VM too
@@ -167,9 +167,6 @@ namespace Ingress.WPF.ViewModels
         {
             try
             {
-                if (activity.ActivityID != 0)
-                    _activityRepository.CancelChanges(activity.GetModel());
-
                 await Start();
             }
             catch (Exception ex)
@@ -189,13 +186,16 @@ namespace Ingress.WPF.ViewModels
                 {
                     var model = activity.GetModel();
 
-                    if (model.ActivityID == 0)
-                        _activityRepository.Create(model);
-                    else
-                        _activityRepository.Update(model);
+                    using (var repo = new ActivityRepository(new IngressContext()))
+                    {
+                        if (model.ActivityID == 0)
+                            repo.Create(model);
+                        else
+                            repo.Update(model);
 
-                    await _activityRepository.SaveChanges();
-
+                        await repo.SaveChanges();
+                    }
+                    
                     name = activity.Subject;
                 }
 

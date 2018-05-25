@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ingress.WPF.Views.Data"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-             xmlns:ctrls="clr-namespace:Ingress.WPF.Views.Controls"
              xmlns:data="clr-namespace:Ingress.WPF.ViewModels.Data"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance data:ModelAccessViewModel}"
@@ -21,18 +20,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <local:ActivityControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Time Taken: " />
-
-        <ctrls:TimeSpanEditor Grid.Row="1" Grid.Column="1" EditValue="{Binding TimeTaken}" />
-
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Analyst: " />
-        <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="1" 
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Analyst: " />
+        <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="1" 
                           NullText="Analyst Name(s)" ShowNullText="True" ShowNullTextForEmptyValue="True" 
                           EditValue="{Binding Path=Analyst, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" EditValueType="system:String"
                           ItemsSource="{Binding Path=DataContext.Analysts, RelativeSource={RelativeSource AncestorType=Window}}"

@@ -7,7 +7,7 @@
             <tb:TaskbarIcon 
                     x:Key="NotifyIcon"
                     Visibility="Visible"
-                    ToolTipText="Fallback ToolTip for Windows xp"
+                    ToolTipText="Ingress: Broker Interaction Tracking"
                     MenuActivation="LeftOrRightClick"
                     IconSource="../Images/door.ico"
                     PopupActivation="DoubleClick">

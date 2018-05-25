@@ -66,11 +66,10 @@
     <Compile Include="Mocks\MockCompanyMeetingRepository.cs" />
     <Compile Include="Mocks\MockDataSourcesRepository.cs" />
     <Compile Include="Models\Activity.cs" />
-    <Compile Include="Models\ActivityType.cs" />
-    <Compile Include="Models\ActivityTypes.cs" />
     <Compile Include="Models\AnalystMeeting.cs" />
     <Compile Include="Models\BrokerEmail.cs" />
     <Compile Include="Models\CompanyMeeting.cs" />
+    <Compile Include="Interfaces\IMeeting.cs" />
     <Compile Include="Models\IngressContext.cs" />
     <Compile Include="Models\ModelAccess.cs" />
     <Compile Include="Models\PhoneCall.cs" />

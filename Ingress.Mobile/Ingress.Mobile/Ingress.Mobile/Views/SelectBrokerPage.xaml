@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mvvm="clr-namespace:Ingress.Mobile.MVVM"
+             x:Class="Ingress.Mobile.Views.SelectBrokerPage"
+             Title="Select Broker">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Skip" Command="{Binding SkipCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+
+        <Grid>
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <SearchBar Grid.Row="0" Grid.Column="0" Margin="0"
+                           Placeholder="Enter a value for search"
+                           Text="{Binding SearchText}"
+                           SearchCommand="{Binding SearchCommand}" />
+
+                <ListView 
+                      ItemsSource="{Binding Results}"
+                      RefreshCommand="{Binding SearchCommand}"
+                      IsRefreshing="{Binding Working, Mode=OneWay}"
+                      IsPullToRefreshEnabled="true"
+                      VerticalOptions="Start"
+                      HasUnevenRows="True"
+                      Grid.Row="1">
+
+                    <ListView.Behaviors>
+                        <mvvm:EventToCommandBehavior EventName="ItemSelected" Command="{Binding SelectedCommand}" Converter="{mvvm:SelectedItemEventArgsToSelectedItemConverter}" />
+                    </ListView.Behaviors>
+
+                    <ListView.ItemTemplate>
+
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10,8">
+                                    <Label Text="{Binding Name}" LineBreakMode="NoWrap" FontSize="16" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+                </ListView>
+                    
+                <Button Grid.Column="0" Grid.Row="2" Text="No result? Click to refresh" Command="{Binding RefreshCommand}" />
+
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="0" IsVisible="{Binding Working}" Margin="0,-20,0,0">
+                <Grid BackgroundColor="Black" Opacity="0.2" />
+            </Grid>
+
+        </Grid>
+
+    </ContentPage.Content>
+    
+</ContentPage>

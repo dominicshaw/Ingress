@@ -52,7 +52,7 @@
         <Setter Property="VerticalAlignment"
                 Value="Center" />
         <Setter Property="Source"
-                Value="pack://application:,,,/Ingress.WPF;component/Images/close_8.png" />
+                Value="pack://application:,,,/Ingress;component/Images/close_8.png" />
         <Setter Property="Stretch"
                 Value="None" />
     </Style>

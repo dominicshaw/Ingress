@@ -1,6 +1,8 @@
-﻿namespace Ingress.WPF.ViewModels
+﻿using Ingress.WPF.ViewModels.Validation;
+
+namespace Ingress.WPF.ViewModels
 {
-    public abstract class SelectableViewModel
+    public abstract class SelectableViewModel : ValidationViewModel
     {
 
     }

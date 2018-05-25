@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ingress.Data.Interfaces;
 using Ingress.Data.Models;
@@ -10,10 +11,10 @@ namespace Ingress.Data.Mocks
         public async Task<List<CompanyMeeting>> GetAll()
         {
             await Task.CompletedTask;
-            return new List<CompanyMeeting>() {new CompanyMeeting()};
+            return new List<CompanyMeeting>() { new CompanyMeeting() };
         }
 
-        public async Task<CompanyMeeting> GetById(string id)
+        public async Task<CompanyMeeting> GetById(int id)
         {
             await Task.CompletedTask;
             return new CompanyMeeting();
@@ -34,9 +35,14 @@ namespace Ingress.Data.Mocks
 
         }
 
+        public Task Reload(CompanyMeeting entity)
+        {
+            return Task.CompletedTask;
+        }
+
         public void CancelChanges(CompanyMeeting entity)
         {
-            
+
         }
 
         public async Task SaveChanges()
@@ -44,10 +50,15 @@ namespace Ingress.Data.Mocks
             await Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<CompanyMeeting>> FindSkipped()
+        public async Task<List<CompanyMeeting>> Find(DateTime start, DateTime end)
         {
             await Task.CompletedTask;
             return new List<CompanyMeeting>();
+        }
+
+        public bool Exists(string calendarId)
+        {
+            return true;
         }
     }
 }

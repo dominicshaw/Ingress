@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Configuration;
 using System.Deployment.Application;
 using System.Reflection;
@@ -22,7 +23,7 @@ namespace Ingress.WPF
 
             Title = string.Format("Ingress v{0} ({1})",
                 ApplicationDeployment.IsNetworkDeployed ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString() : Assembly.GetExecutingAssembly().GetName().Version + "d",
-                ConfigurationManager.ConnectionStrings["IngressDb"].ConnectionString.Contains("LONHAPP01") ? "LIVE" : "TEST");
+                ConfigurationManager.ConnectionStrings["IngressDb"].ConnectionString.Contains("LIVESERVER") ? "LIVE" : "TEST");
 
             log.Info(Title);
 
@@ -35,11 +36,27 @@ namespace Ingress.WPF
             Closing += MainWindow_Closing;
 
             windowLayoutManager.ApplyJot(this);
+
+            Messenger.Default.Register<NavigationCommand>(this, CheckShown);
         }
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            await _model.Start();
+            try
+            {
+                await _model.Start();
+                Hide();
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                _model.SelectedView = new ErrorMessageViewModel(ex);
+            }
+        }
+
+        private void CheckShown(NavigationCommand cmd)
+        {
+            if (!IsVisible) Show();
         }
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)

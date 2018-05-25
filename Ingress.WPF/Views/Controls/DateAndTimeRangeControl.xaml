@@ -21,14 +21,14 @@
         <dxe:DateEdit
             Margin="5,2"
             DisplayFormatString="dd MMM yyyy"
-            EditValue="{Binding ElementName=ctrl, Path=Date}" />
+            EditValue="{Binding ElementName=ctrl, Path=StartDate, UpdateSourceTrigger=PropertyChanged}" />
 
         <dxe:DateEdit
             Grid.Column="1"
             Margin="5,2"
             HorizontalAlignment="Stretch"
             AllowNullInput="True"
-            EditValue="{Binding ElementName=ctrl, Path=StartTime}"
+            EditValue="{Binding ElementName=ctrl, Path=StartDate, UpdateSourceTrigger=PropertyChanged}"
             Mask="HH:mm"
             MaskUseAsDisplayFormat="True"
             NullText=" - "
@@ -45,7 +45,7 @@
             Margin="5,2"
             HorizontalAlignment="Stretch"
             AllowNullInput="True"
-            EditValue="{Binding ElementName=ctrl, Path=EndTime}"
+            EditValue="{Binding ElementName=ctrl, Path=EndDate, UpdateSourceTrigger=PropertyChanged}"
             Mask="HH:mm"
             MaskUseAsDisplayFormat="True"
             NullText=" - "

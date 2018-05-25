@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Windows.Input;
-using DevExpress.Mvvm;
 using Ingress.Data.Models;
 
 namespace Ingress.WPF.ViewModels.Data
@@ -14,9 +12,9 @@ namespace Ingress.WPF.ViewModels.Data
             _activity = activity;
         }
 
-        public string GlobalID => _activity.GlobalID;
-        public string ConvoID => _activity.ConvoID;
-        public string Organiser => _activity.Organiser;
+        public string GlobalID   => _activity.GlobalID;
+        public string ConvoID    => _activity.ConvoID;
+        public string Organiser  => _activity.Organiser;
         public string Categories => _activity.Categories;
         
         [Required(ErrorMessage = "You must specify whether this company meeting was via a broker or direct.")]
@@ -32,6 +30,9 @@ namespace Ingress.WPF.ViewModels.Data
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsBroker));
+                OnPropertyChanged(nameof(RequiresPushPull));
+                OnPropertyChanged(nameof(RequiresBroker));
+                OnPropertyChanged(nameof(Broker));
             }
         }
 
@@ -47,9 +48,15 @@ namespace Ingress.WPF.ViewModels.Data
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsDirect));
+                OnPropertyChanged(nameof(RequiresPushPull));
+                OnPropertyChanged(nameof(RequiresBroker));
+                OnPropertyChanged(nameof(Broker));
             }
         }
 
+        public override bool RequiresBroker => IsDirect.HasValue && !IsDirect.Value;
+        public override bool RequiresPushPull => IsDirect.HasValue && !IsDirect.Value;
+        public override bool RequiresRating => false;
         public override bool Skipped
         {
             get => _activity.Skipped;
@@ -60,7 +67,6 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
-        
         public override string Type => "Company Meeting";
         
         public override Activity GetModel() => _activity;

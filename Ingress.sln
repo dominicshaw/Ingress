@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ingress.WPF", "Ingress.WPF\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ingress.Tests", "Ingress.Tests\Ingress.Tests.csproj", "{7E6ADD2C-283E-4606-8442-2F70A1636D98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ingress.Api", "Ingress.Api\Ingress.Api.csproj", "{3DA264A7-8D8A-4207-A2B4-6273B8D7AC32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ingress.DTOs", "Ingress.DTOs\Ingress.DTOs.csproj", "{5F53A36D-AFEE-4CF6-81C1-E2118247ECEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{7E6ADD2C-283E-4606-8442-2F70A1636D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E6ADD2C-283E-4606-8442-2F70A1636D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E6ADD2C-283E-4606-8442-2F70A1636D98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DA264A7-8D8A-4207-A2B4-6273B8D7AC32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DA264A7-8D8A-4207-A2B4-6273B8D7AC32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DA264A7-8D8A-4207-A2B4-6273B8D7AC32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DA264A7-8D8A-4207-A2B4-6273B8D7AC32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F53A36D-AFEE-4CF6-81C1-E2118247ECEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F53A36D-AFEE-4CF6-81C1-E2118247ECEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F53A36D-AFEE-4CF6-81C1-E2118247ECEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F53A36D-AFEE-4CF6-81C1-E2118247ECEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

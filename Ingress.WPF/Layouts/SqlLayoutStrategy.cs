@@ -19,7 +19,7 @@ namespace Ingress.WPF.Layouts
                 if (ConfigurationManager.ConnectionStrings["Layouts"] != null)
                     return ConfigurationManager.ConnectionStrings["Layouts"].ConnectionString;
 
-                return @"Data Source=LONHSQL01\PROD01;Initial Catalog=user_layouts;User Id=layout_manager;Password=layout_manager;";
+                return @"Data Source=localhost;Initial Catalog=user_layouts;Trusted_Connection=True;";
             }
         }
 

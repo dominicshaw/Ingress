@@ -16,9 +16,9 @@ namespace Ingress.WPF.Factories
         {
             _loadActivities.Add(typeof(AnalystMeeting), activity => new AnalystMeetingViewModel((AnalystMeeting) activity));
             _loadActivities.Add(typeof(CompanyMeeting), activity => new CompanyMeetingViewModel((CompanyMeeting) activity));
-            _loadActivities.Add(typeof(PhoneCall), activity => new PhoneCallViewModel((PhoneCall) activity));
-            _loadActivities.Add(typeof(BrokerEmail), activity => new BrokerEmailViewModel((BrokerEmail) activity));
-            _loadActivities.Add(typeof(ModelAccess), activity => new ModelAccessViewModel((ModelAccess) activity));
+            _loadActivities.Add(typeof(PhoneCall)     , activity => new PhoneCallViewModel     ((PhoneCall)      activity));
+            _loadActivities.Add(typeof(BrokerEmail)   , activity => new BrokerEmailViewModel   ((BrokerEmail)    activity));
+            _loadActivities.Add(typeof(ModelAccess)   , activity => new ModelAccessViewModel   ((ModelAccess)    activity));
         }
 
         public ActivityViewModel Load(Activity activity)

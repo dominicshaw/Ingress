@@ -38,10 +38,12 @@
                     <dxe:DateEditSettings DisplayFormat="dd MMM yyyy HH:mm" />
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-            <dxg:GridColumn FieldName="BrokerId" IsSmart="True" Visible="False" FilterPopupMode="CheckedList" />
-            <dxg:GridColumn FieldName="BrokerName" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
             <dxg:GridColumn FieldName="Broker" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
-            <dxg:GridColumn FieldName="Rating" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" />
+            <dxg:GridColumn FieldName="Rating" IsSmart="True" Visible="True" FilterPopupMode="CheckedList" HorizontalHeaderContentAlignment="Center">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:RatingEditSettings Precision="Full" ItemsCount="5" HorizontalContentAlignment="Center" />
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
             <dxg:GridColumn FieldName="Comments" IsSmart="True" Visible="True" />
             <dxg:GridColumn FieldName="PushOrPull" Header="Push/Pull" IsSmart="True"/>
             <dxg:GridColumn FieldName="Skipped" Header="Skipped?" IsSmart="True"/>

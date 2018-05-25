@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ingress.Mobile.Views.ModelAccessPage"
+             IsBusy="{Binding IsBusy}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+
+        <Grid>
+
+            <Grid Margin="10">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Text="Analyst: " />
+                <Entry Grid.Row="0" Grid.Column="1" Text="{Binding Analyst}" />
+
+                <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding ValidationErrors}" TextColor="Red" />
+
+            </Grid>
+
+            <Grid IsVisible="{Binding IsBusy}">
+                <Grid BackgroundColor="Black" Opacity="0.2" />
+                <ActivityIndicator IsRunning="{Binding IsBusy}" />
+            </Grid>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

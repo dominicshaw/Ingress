@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:hlp="clr-namespace:Ingress.Mobile.Helpers;assembly=Ingress.Mobile"
+             x:Class="Ingress.Mobile.Views.ActivityPage" Title="{Binding Subject}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Continue" Clicked="Continue_Clicked" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+
+        <Grid Margin="10">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Text="User: " />
+            <Label Grid.Column="0" Grid.Row="1" Text="Subject: " />
+            <Label Grid.Column="0" Grid.Row="2" Text="Date Start: " />
+            <Label Grid.Column="0" Grid.Row="3" Text="Date End: " />
+            <Label Grid.Column="0" Grid.Row="4" Text="Rating: " />
+            <Label Grid.Column="0" Grid.Row="5" Text="Comments: " />
+            <Label Grid.Column="0" Grid.Row="6" Text="Push / Pull: " />
+
+            <Entry Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Username}" />
+            <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Subject}" />
+            <DatePicker Grid.Row="2" Grid.Column="1" Date="{Binding DateStart}" />
+            <DatePicker Grid.Row="3" Grid.Column="1" Date="{Binding DateEnd}" />
+            <TimePicker Grid.Row="2" Grid.Column="2" Time="{Binding TimeStart}" />
+            <TimePicker Grid.Row="3" Grid.Column="2" Time="{Binding TimeEnd}" />
+            <Picker Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{x:Static hlp:DataCollections.Ratings}" SelectedItem="{Binding Rating}" />
+            <Entry Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Comments}" />
+            <Picker Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{x:Static hlp:DataCollections.PushPull}" SelectedItem="{Binding PushOrPull}" />
+
+        </Grid>
+
+    </ContentPage.Content>
+
+</ContentPage>

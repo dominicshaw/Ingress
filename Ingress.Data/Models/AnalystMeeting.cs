@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ingress.Data.Interfaces;
 
 namespace Ingress.Data.Models
 {
     [Table("AnalystMeeting")]
-    public class AnalystMeeting : Activity
+    public class AnalystMeeting : Activity, IMeeting
     {
         [MaxLength(200)]
         public string GlobalID { get; set; }
@@ -27,7 +28,7 @@ namespace Ingress.Data.Models
 
         public AnalystMeeting()
         {
-            TimeTaken = new TimeSpan(0, 30, 0).ToString();
+            TimeTaken = TimeSpan.FromHours(1).ToString();
         }
     }
 }

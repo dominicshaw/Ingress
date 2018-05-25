@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace Ingress.Data.Bases
 {
-    public class EntityFrameworkRepository<TEntity, TKey> where TEntity : class
+    public class EntityFrameworkRepository<TEntity, TKey> : IDisposable where TEntity : class
     {
+        private readonly DbContext _context;
+
         protected EntityFrameworkRepository(DbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-
-        private readonly DbContext _context;
 
         public Task<List<TEntity>> GetAll()
         {
@@ -44,6 +44,12 @@ namespace Ingress.Data.Bases
             _context.Entry(entity).State = EntityState.Modified;
         }
 
+        public async Task Reload(TEntity entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            await _context.Entry(entity).ReloadAsync();
+        }
+
         public void CancelChanges(TEntity entity)
         {
             _context.Entry(entity).CurrentValues.SetValues(_context.Entry(entity).OriginalValues);
@@ -53,6 +59,11 @@ namespace Ingress.Data.Bases
         public async Task SaveChanges()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
         }
     }
 }

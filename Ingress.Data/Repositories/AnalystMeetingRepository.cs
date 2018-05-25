@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using JetBrains.Annotations;
 namespace Ingress.Data.Repositories
 {
     [UsedImplicitly]
-    public class AnalystMeetingRepository : EntityFrameworkRepository<AnalystMeeting, string>, IAnalystMeetingRepository
+    public class AnalystMeetingRepository : EntityFrameworkRepository<AnalystMeeting, int>, IAnalystMeetingRepository
     {
         private readonly IngressContext _context;
 
@@ -19,9 +20,26 @@ namespace Ingress.Data.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<AnalystMeeting>> FindSkipped()
+        public async Task<List<AnalystMeeting>> FindSkipped()
         {
             return await _context.Activity.OfType<AnalystMeeting>().Where(x => x.BrokerId == 419).ToListAsync();
+        }
+
+        public async Task<List<AnalystMeeting>> Find(int? brokerId, DateTime start, DateTime end)
+        {
+            return await _context
+                .Activity
+                .OfType<AnalystMeeting>()
+                .Where(x => x.BrokerId == 419 || !brokerId.HasValue)
+                .Where(x => x.DateStart >= start && x.DateEnd <= end)
+                .ToListAsync();
+        }
+
+        public bool Exists(string calendarId)
+        {
+            return _context.Activity
+                .OfType<AnalystMeeting>()
+                .Any(x => x.CalID == calendarId);
         }
     }
 }

@@ -16,9 +16,9 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <dxe:SpinEdit Margin="5,2" Grid.Column="0" Increment="1" EditValue="{Binding ElementName=ctrl, Path=Hours}" EditValueType="system:Int32" />
+        <dxe:SpinEdit Margin="5,2" Grid.Column="0" Increment="1" EditValue="{Binding ElementName=ctrl, Path=Hours, UpdateSourceTrigger=PropertyChanged}" EditValueType="system:Int32" />
         <TextBlock Margin="5,2" Text="hrs" Grid.Column="1" />
-        <dxe:SpinEdit Margin="5,2" Grid.Column="2" Increment="1" EditValue="{Binding ElementName=ctrl, Path=Minutes}" EditValueType="system:Int32" />
+        <dxe:SpinEdit Margin="5,2" Grid.Column="2" Increment="1" EditValue="{Binding ElementName=ctrl, Path=Minutes, UpdateSourceTrigger=PropertyChanged}" EditValueType="system:Int32" />
         <TextBlock Margin="5,2" Text="mins" Grid.Column="3" />
 
     </Grid>

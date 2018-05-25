@@ -1,42 +1,21 @@
 ﻿using System;
 using System.Windows;
-using log4net;
 
 namespace Ingress.WPF.Views.Controls
 {
     public partial class DateAndTimeRangeControl
     {
-        private static readonly ILog _log = LogManager.GetLogger(typeof(DateAndTimeRangeControl));
-
         public static readonly DependencyProperty StartDateProperty = DependencyProperty.Register(
             nameof(StartDate),
             typeof(DateTime),
             typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata(OnStartDateChanged)  { BindsTwoWayByDefault = true });
+            new FrameworkPropertyMetadata(OnStartDateChanged) { BindsTwoWayByDefault = true });
 
         public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register(
             nameof(EndDate),
             typeof(DateTime),
             typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata(OnEndDateChanged){  BindsTwoWayByDefault = true });
-
-        public static readonly DependencyProperty StartTimeProperty = DependencyProperty.Register(
-            nameof(StartTime),
-            typeof(DateTime),
-            typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata(OnStartTimeChanged) { BindsTwoWayByDefault = true });
-
-        public static readonly DependencyProperty EndTimeProperty = DependencyProperty.Register(
-            nameof(EndTime),
-            typeof(DateTime),
-            typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata(OnEndTimeChanged) { BindsTwoWayByDefault = true });
-
-        public static readonly DependencyProperty DateProperty = DependencyProperty.Register(
-            nameof(Date),
-            typeof(DateTime),
-            typeof(DateAndTimeRangeControl),
-            new FrameworkPropertyMetadata(OnDateChanged) { BindsTwoWayByDefault = true });
+            new FrameworkPropertyMetadata { BindsTwoWayByDefault = true });
 
         public DateAndTimeRangeControl()
         {
@@ -54,70 +33,15 @@ namespace Ingress.WPF.Views.Controls
             get => (DateTime)GetValue(EndDateProperty);
             set => SetValue(EndDateProperty, value);
         }
-        
-        public DateTime StartTime
-        {
-            get => (DateTime) GetValue(StartTimeProperty);
-            set => SetValue(StartTimeProperty, value);
-        }
-
-        public DateTime EndTime
-        {
-            get => (DateTime) GetValue(EndTimeProperty);
-            set => SetValue(EndTimeProperty, value);
-        }
-
-        public DateTime Date
-        {
-            get => (DateTime) GetValue(DateProperty);
-            set => SetValue(DateProperty, value);
-        }
 
         private static void OnStartDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is DateAndTimeRangeControl control)
+            if (d is DateAndTimeRangeControl control && e.NewValue is DateTime dt)
             {
-                _log.Info("Start Date set: " + e.NewValue);
-                control.SetCurrentValue(DateProperty, e.NewValue);
-                control.SetCurrentValue(StartTimeProperty, e.NewValue);
-            }
-        }
+                if (dt == default(DateTime))
+                    return;
 
-        private static void OnEndDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is DateAndTimeRangeControl control)
-            {
-                _log.Info("End Date set: " + e.NewValue);
-                control.SetCurrentValue(EndTimeProperty, e.NewValue);
-            }
-        }
-
-        private static void OnStartTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is DateAndTimeRangeControl control && e.NewValue is DateTime time)
-            {
-                _log.Info("Start Time set: " + e.NewValue);
-                control.SetCurrentValue(StartDateProperty, CreateDateTime(control.Date, time));
-            }
-        }
-
-        private static void OnEndTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is DateAndTimeRangeControl control && e.NewValue is DateTime time)
-            {
-                _log.Info("End Time set: " + e.NewValue);
-                control.SetCurrentValue(EndDateProperty, CreateDateTime(control.Date, time));
-            }
-        }
-
-        private static void OnDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is DateAndTimeRangeControl control && e.NewValue is DateTime date)
-            {
-                _log.Info("Date set: " + e.NewValue);
-
-                control.SetCurrentValue(StartDateProperty, CreateDateTime(date, control.StartTime));
-                control.SetCurrentValue(EndDateProperty, CreateDateTime(date, control.EndTime));
+                control.SetCurrentValue(EndDateProperty, CreateDateTime(dt, control.EndDate));
             }
         }
 

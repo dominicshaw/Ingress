@@ -18,7 +18,18 @@ namespace Ingress.Data.Mocks
             return _activities;
         }
 
-        public async Task<Activity> GetById(string id)
+        public async Task<List<Activity>> GetByUsername(string username)
+        {
+            await Task.CompletedTask;
+            return _activities.Where(x => x.ActivityID == 1).ToList();
+        }
+
+        public Task<List<string>> GetUsers()
+        {
+            return Task.FromResult(new List<string>() {"Dominic Shaw"});
+        }
+
+        public async Task<Activity> GetById(int id)
         {
             await Task.CompletedTask;
             return new PhoneCall();
@@ -40,14 +51,19 @@ namespace Ingress.Data.Mocks
 
         }
 
+        public Task Reload(Activity entity)
+        {
+            return Task.CompletedTask;
+        }
+
         public void CancelChanges(Activity entity)
         {
 
         }
 
-        public async Task SaveChanges()
+        public Task SaveChanges()
         {
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
     }
 }

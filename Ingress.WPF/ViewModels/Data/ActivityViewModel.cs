@@ -1,16 +1,12 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-using System.Text;
-using DevExpress.Mvvm;
 using Ingress.Data.DataSources;
 using Ingress.Data.Models;
-using JetBrains.Annotations;
+using Ingress.WPF.ViewModels.Attributes;
 
 namespace Ingress.WPF.ViewModels.Data
 {
-    public abstract class ActivityViewModel : SelectableViewModel, INotifyPropertyChanged, IDataErrorInfo
+    public abstract class ActivityViewModel : SelectableViewModel
     {
         private readonly Activity _activity;
 
@@ -58,6 +54,9 @@ namespace Ingress.WPF.ViewModels.Data
             }
         }
 
+        public decimal? BrokerId => _activity.BrokerId;
+
+        [RequiredIf("RequiresBroker", true, ErrorMessage = "You must select a broker.")]
         public Broker Broker
         {
             get => _broker;
@@ -69,34 +68,15 @@ namespace Ingress.WPF.ViewModels.Data
 
                 if (value != null)
                 {
-                    BrokerId = value.ID;
-                    BrokerName = value.Name;
+#pragma warning disable INPC003
+                    _activity.BrokerId = value.ID;
+#pragma warning restore INPC003
+                    _activity.BrokerName = value.Name;
                 }
             }
         }
 
-        public decimal? BrokerId
-        {
-            get => _activity.BrokerId;
-            set
-            {
-                if (value == _activity.BrokerId) return;
-                _activity.BrokerId = value;
-                OnPropertyChanged();
-            }
-        }
-        public string BrokerName
-        {
-            get => _activity.BrokerName;
-            set
-            {
-                if (value == _activity.BrokerName) return;
-                _activity.BrokerName = value;
-                OnPropertyChanged();
-            }
-        }
-        
-        [Required(ErrorMessage = "You must select a rating for the activity.")]
+        [RequiredIf("RequiresRating", true, ErrorMessage = "You must select a rating for the activity.")]
         public int? Rating
         {
             get => _activity.Rating;
@@ -117,7 +97,7 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
-        [Required(ErrorMessage = "You must select whether the activity was push or pull.")]
+        [RequiredIf("RequiresPushPull", true, ErrorMessage = "You must select whether the activity was push or pull.")]
         public string PushOrPull
         {
             get => _activity.PushOrPull;
@@ -138,51 +118,12 @@ namespace Ingress.WPF.ViewModels.Data
                 OnPropertyChanged();
             }
         }
+
+        public virtual bool RequiresBroker { get; } = false;
+        public virtual bool RequiresRating { get; } = true;
+        public virtual bool RequiresPushPull { get; } = true;
         public abstract string Type { get; }
 
         public abstract Activity GetModel();
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        string IDataErrorInfo.this[string columnName] => IDataErrorInfoHelper.GetErrorText(this, columnName);
-
-        public string Error
-        {
-            get
-            {
-                var errors = new StringBuilder();
-
-                foreach (var prop in GetType().GetProperties())
-                {
-                    foreach (ValidationAttribute att in prop.GetCustomAttributes(typeof(ValidationAttribute), true))
-                    {
-                        if(!att.IsValid(prop.GetValue(this)))
-                        {
-                            errors.AppendLine(att.ErrorMessage);
-                        }
-                    }
-                }
-
-                return errors.ToString().Trim();
-            }
-        }
-
-        public bool IsValid
-        {
-            get
-            {
-                foreach (var prop in GetType().GetProperties())
-                    foreach (ValidationAttribute att in prop.GetCustomAttributes(typeof(ValidationAttribute), true))
-                        if (!att.IsValid(prop.GetValue(this)))
-                            return false;
-                return true;
-            }
-        }
     }
 }

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ingress.Mobile.Views.LoginPage">
+
+    <ContentPage.Content>
+
+        <Grid>
+
+            <Grid Margin="0,30,0,0">
+
+                <Frame Margin="10" VerticalOptions="Start" Padding="0,10,0,0">
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                
+                        <Label Margin="10,0,0,2" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Enter your windows username and password:" FontSize="Small" />
+                        <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" Color="Black" Margin="10,5,10,10" />
+
+                        <Label Margin="10,2,20,2" Grid.Row="2" Grid.Column="0" Text="Username:" VerticalOptions="Center" VerticalTextAlignment="Center" FontSize="Small" />
+                        <Label Margin="10,2,20,2" Grid.Row="3" Grid.Column="0" Text="Password:" VerticalOptions="Center" VerticalTextAlignment="Center" FontSize="Small" />
+                        <Label Margin="10,2,20,2" Grid.Row="4" Grid.Column="0" Text="Full Name:" VerticalOptions="Center" VerticalTextAlignment="Center" FontSize="Small" />
+
+                        <Entry Margin="5,2,10,2" Grid.Row="2" Grid.Column="1" Text="{Binding Username, Mode=TwoWay}" Placeholder="surname_f" Keyboard="Text"></Entry>
+                        <Entry Margin="5,2,10,2" Grid.Row="3" Grid.Column="1" Text="{Binding Password, Mode=TwoWay}" Keyboard="Text" IsPassword="True"></Entry>
+                        <Picker Margin="5,2,10,2" Grid.Row="4" Grid.Column="1" SelectedItem="{Binding Fullname, Mode=TwoWay}" ItemsSource="{Binding Users}" />
+
+                        <Button Margin="10,10,10,0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Login" Command="{Binding LoginCommand}" BackgroundColor="{StaticResource SecondaryBright}" TextColor="White" />
+
+                    </Grid>
+
+                </Frame>
+
+            </Grid>
+
+            <Grid IsVisible="{Binding Working}">
+                <Grid BackgroundColor="Black" Opacity="0.2" />
+                <ActivityIndicator IsRunning="{Binding Working}" />
+            </Grid>
+
+        </Grid>
+    
+    </ContentPage.Content>
+</ContentPage>

@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ingress.Data.Interfaces;
 
 namespace Ingress.Data.Models
 {
     [Table("CompanyMeeting")]
-    public class CompanyMeeting : Activity
+    public class CompanyMeeting : Activity, IMeeting
     {
         [MaxLength(200)]
         public string GlobalID { get; set; }
