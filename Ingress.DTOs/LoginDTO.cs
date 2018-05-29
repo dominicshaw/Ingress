@@ -19,11 +19,14 @@ namespace Ingress.DTOs
             
             using (var aesAlg = Aes.Create())
             {
+                if (aesAlg == null) 
+                    throw new Exception("Could not create Aes algo.");
+
                 aesAlg.Key = _key;
                 aesAlg.IV = _iv;
-                
+
                 var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-                
+
                 using (var msEncrypt = new MemoryStream())
                 {
                     using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
@@ -34,6 +37,7 @@ namespace Ingress.DTOs
 
                     return msEncrypt.ToArray();
                 }
+
             }
         }
 
@@ -44,6 +48,9 @@ namespace Ingress.DTOs
             
             using (var aesAlg = Aes.Create())
             {
+                if (aesAlg == null) 
+                    throw new Exception("Could not create Aes algo.");
+
                 aesAlg.Key = _key;
                 aesAlg.IV = _iv;
 
@@ -53,6 +60,7 @@ namespace Ingress.DTOs
                 using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                 using (var srDecrypt = new StreamReader(csDecrypt))
                     return srDecrypt.ReadToEnd();
+
             }
         }
     }

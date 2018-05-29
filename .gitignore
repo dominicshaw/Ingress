@@ -218,8 +218,6 @@ _Pvt_Extensions
 Ingress\.WPF/App\.config
 Ingress.WPF/App.config
 
-*.config
-
 Broker Interaction Tracking\.docx
 
 CompanyMeetingWorkflow\.png

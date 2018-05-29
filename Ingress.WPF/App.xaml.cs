@@ -82,7 +82,7 @@ namespace Ingress.WPF
                     return;
                 }
 
-                key.SetValue("Ingress", "\\\\ttint.com\\Deploy\\TTPublished\\Ingress\\Ingress.application"); // Assembly.GetExecutingAssembly().Location
+                key.SetValue("Ingress", "\\\\domain.com\\Deploy\\Published\\Ingress\\Ingress.application"); // Assembly.GetExecutingAssembly().Location
             }
             catch (Exception ex)
             {
