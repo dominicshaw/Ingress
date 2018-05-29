@@ -215,8 +215,6 @@ FakesAssemblies/
 **/*.Server/GeneratedArtifacts
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
-Ingress\.WPF/App\.config
-Ingress.WPF/App.config
 
 Broker Interaction Tracking\.docx
 

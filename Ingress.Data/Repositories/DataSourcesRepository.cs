@@ -53,11 +53,11 @@ namespace Ingress.Data.Repositories
         {
             var brokers = new List<Broker>();
 
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["CommGL"].ConnectionString))
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Brokers"].ConnectionString))
             {
                 await con.OpenAsync();
 
-                using (var cmd = new SqlCommand("SELECT * FROM tt_commGL_Recipient WHERE @include_deleted = 1 OR (@include_deleted = 0 AND Deleted = 0) ORDER BY RecipientName", con) { CommandType = CommandType.Text })
+                using (var cmd = new SqlCommand("SELECT * FROM broker WHERE @include_deleted = 1 OR (@include_deleted = 0 AND Deleted = 0) ORDER BY RecipientName", con) { CommandType = CommandType.Text })
                 {
                     cmd.Parameters.Add("@include_deleted", SqlDbType.Bit).Value = includeDeleted;
 
